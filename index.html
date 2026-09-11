@@ -1,1493 +1,1250 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>🦧 The Odisha Orangutan Mystery</title>
-
-<!-- Leaflet CSS -->
-<link
-rel="stylesheet"
-href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-/>
-
-<style>
-
-/* ================================
-   GLOBAL
-================================ */
-
-* {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  margin: 0;
-  background: #080c11;
-  color: #f8fafc;
-
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    Helvetica,
-    Arial,
-    sans-serif;
-}
-
-.page {
-  max-width: 1200px;
-  margin: auto;
-}
-
-
-/* ================================
-   HERO
-================================ */
-
-.hero {
-
-  padding: 60px 20px 45px;
-
-  text-align: center;
-
-  background:
-    radial-gradient(
-      circle at 50% 0%,
-      rgba(249,115,22,.18),
-      transparent 45%
-    );
-}
-
-.eyebrow {
-
-  margin-bottom: 18px;
-
-  color: #fb923c;
-
-  font-size: 11px;
-  font-weight: 800;
-
-  letter-spacing: 2px;
-}
-
-.hero h1 {
-
-  margin: 0;
-
-  font-size:
-    clamp(40px, 7vw, 76px);
-
-  line-height: .95;
-
-  letter-spacing: -3px;
-
-  font-weight: 850;
-}
-
-.subtitle {
-
-  max-width: 650px;
-
-  margin: 25px auto 0;
-
-  color: #9aa7b8;
-
-  font-size: 18px;
-
-  line-height: 1.55;
-}
-
-.distance {
-
-  display: inline-block;
-
-  margin-top: 24px;
-
-  padding: 9px 17px;
-
-  border: 1px solid #334155;
-
-  border-radius: 999px;
-
-  color: #cbd5e1;
-
-  background: #111821;
-
-  font-size: 13px;
-}
-
-
-/* ================================
-   SECTIONS
-================================ */
-
-.section {
-
-  padding: 25px 16px;
-}
-
-.section-title {
-
-  display: flex;
-
-  justify-content: space-between;
-
-  align-items: center;
-
-  margin-bottom: 10px;
-
-  color: #64748b;
-
-  font-size: 11px;
-
-  font-weight: 800;
-
-  letter-spacing: 1.7px;
-}
-
-
-/* ================================
-   MAP
-================================ */
-
-#map {
-
-  width: 100%;
-
-  height: 570px;
-
-  border:
-    1px solid #263241;
-
-  border-radius: 18px;
-
-  overflow: hidden;
-
-  background: #111827;
-}
-
-.leaflet-container {
-
-  background: #111827;
-
-  font-family: inherit;
-}
-
-.leaflet-control-zoom a {
-
-  background: #111827 !important;
-
-  color: white !important;
-
-  border-color: #334155 !important;
-}
-
-.leaflet-control-attribution {
-
-  background:
-    rgba(8,12,17,.85) !important;
-
-  color: #64748b !important;
-}
-
-.leaflet-control-attribution a {
-
-  color: #94a3b8 !important;
-}
-
-
-/* ================================
-   LEGEND
-================================ */
-
-.legend {
-
-  display: flex;
-
-  justify-content: center;
-
-  flex-wrap: wrap;
-
-  gap: 20px;
-
-  padding: 14px;
-
-  color: #94a3b8;
-
-  font-size: 12px;
-}
-
-.legend-item {
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 7px;
-}
-
-.dot {
-
-  width: 9px;
-  height: 9px;
-
-  border-radius: 50%;
-}
-
-.orange {
-  background: #f97316;
-}
-
-.grey {
-  background: #94a3b8;
-}
-
-.line {
-
-  width: 20px;
-  height: 2px;
-
-  background: #fb923c;
-}
-
-
-/* ================================
-   BUTTONS
-================================ */
-
-.buttons {
-
-  display: flex;
-
-  flex-wrap: wrap;
-
-  gap: 9px;
-}
-
-button {
-
-  border:
-    1px solid #334155;
-
-  padding:
-    11px 17px;
-
-  border-radius: 9px;
-
-  background: #151d28;
-
-  color: #cbd5e1;
-
-  cursor: pointer;
-
-  font-size: 13px;
-
-  font-weight: 700;
-
-  transition: .2s;
-}
-
-button:hover {
-
-  background: #1e293b;
-
-  transform:
-    translateY(-1px);
-}
-
-button.active {
-
-  background: #f97316;
-
-  border-color: #f97316;
-
-  color: #111827;
-}
-
-
-/* ================================
-   INFO
-================================ */
-
-.info {
-
-  display: flex;
-
-  gap: 15px;
-
-  margin-top: 15px;
-
-  padding: 18px;
-
-  border:
-    1px solid #263241;
-
-  border-radius: 14px;
-
-  background: #0f151d;
-}
-
-.info-icon {
-
-  width: 40px;
-  height: 40px;
-
-  flex-shrink: 0;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 10px;
-
-  background: #1e293b;
-
-  font-size: 19px;
-}
-
-.info h3 {
-
-  margin:
-    0 0 6px;
-
-  font-size: 15px;
-}
-
-.info p {
-
-  margin: 0;
-
-  color: #94a3b8;
-
-  font-size: 13px;
-
-  line-height: 1.6;
-}
-
-
-/* ================================
-   FACTS
-================================ */
-
-.facts {
-
-  display: grid;
-
-  grid-template-columns:
-    repeat(4,1fr);
-
-  gap: 10px;
-}
-
-.fact {
-
-  padding: 20px;
-
-  border:
-    1px solid #263241;
-
-  border-radius: 14px;
-
-  background: #0f151d;
-}
-
-.fact-number {
-
-  color: #f97316;
-
-  font-size: 11px;
-
-  font-weight: 900;
-
-  letter-spacing: 1px;
-}
-
-.fact h3 {
-
-  margin:
-    12px 0 7px;
-
-  font-size: 16px;
-}
-
-.fact p {
-
-  margin: 0;
-
-  color: #8c99aa;
-
-  font-size: 13px;
-
-  line-height: 1.6;
-}
-
-
-/* ================================
-   DISCLAIMER
-================================ */
-
-.disclaimer {
-
-  margin:
-    30px 16px;
-
-  padding: 18px;
-
-  border-left:
-    3px solid #f97316;
-
-  background: #111821;
-
-  color: #94a3b8;
-
-  font-size: 12px;
-
-  line-height: 1.6;
-}
-
-.disclaimer strong {
-
-  color: #cbd5e1;
-}
-
-
-/* ================================
-   FOOTER
-================================ */
-
-footer {
-
-  display: flex;
-
-  justify-content: space-between;
-
-  padding:
-    25px 20px;
-
-  margin-top: 35px;
-
-  border-top:
-    1px solid #1e293b;
-
-  color: #64748b;
-
-  font-size: 11px;
-}
-
-
-/* ================================
-   MARKERS
-================================ */
-
-.marker {
-
-  width: 34px;
-  height: 34px;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  border:
-    2px solid white;
-
-  border-radius: 50%;
-
-  background: #f97316;
-
-  box-shadow:
-    0 0 0 5px rgba(249,115,22,.22),
-    0 5px 15px rgba(0,0,0,.4);
-
-  font-size: 18px;
-}
-
-.home {
-
-  width: 27px;
-  height: 27px;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  border:
-    2px solid #cbd5e1;
-
-  border-radius: 50%;
-
-  background: #475569;
-
-  font-size: 13px;
-}
-
-
-/* ================================
-   MOBILE
-================================ */
-
-@media(max-width:800px){
-
-  #map {
-    height: 470px;
-  }
-
-  .facts {
-    grid-template-columns:
-      repeat(2,1fr);
-  }
-
-}
-
-@media(max-width:520px){
-
-  .hero {
-    padding-top: 40px;
-  }
-
-  .hero h1 {
-    font-size: 41px;
-    letter-spacing: -2px;
-  }
-
-  #map {
-    height: 420px;
-    border-radius: 14px;
-  }
-
-  .facts {
-    grid-template-columns: 1fr;
-  }
-
-  .buttons {
-    display: grid;
-    grid-template-columns: 1fr;
-  }
-
-  button {
-    width: 100%;
-  }
-
-  footer {
-    flex-direction: column;
-    gap: 8px;
-  }
-
-}
-
-</style>
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>The Odisha Orangutan Mystery</title>
+
+  <meta
+    name="description"
+    content="An interactive investigation into the discovery of five juvenile orangutans in Odisha, India."
+  />
+
+  <!-- Leaflet -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIINfQ3YqF7z7bZQf6y8w7w8f5w5z5w5z5w="
+    crossorigin=""
+  />
+
+  <!-- Our stylesheet -->
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 
 <body>
 
-<div class="page">
-
-
-<!-- =====================================
-     HERO
-===================================== -->
-
-<header class="hero">
-
-  <div class="eyebrow">
-    WILDLIFE MYSTERY • INDIA • SEPTEMBER 2026
-  </div>
-
-  <h1>
-    🦧 Five Baby Orangutans<br>
-    in Odisha?
-  </h1>
-
-  <p class="subtitle">
-
-    Thousands of kilometres from their natural range.
-    So how could they have ended up here?
-
-  </p>
-
-  <div class="distance">
-
-    🌏 ~3,000+ km from their natural range
-
-  </div>
-
-</header>
-
-
-
-<!-- =====================================
-     MAP
-===================================== -->
-
-<section class="section">
-
-  <div class="section-title">
-
-    <span>THE MAP</span>
-
-    <span>
-      Drag • Zoom • Click markers
-    </span>
-
-  </div>
-
-  <div id="map"></div>
-
-
-  <div class="legend">
-
-    <div class="legend-item">
-
-      <span class="dot orange"></span>
-
-      Reported / known location
-
-    </div>
-
-
-    <div class="legend-item">
-
-      <span class="dot grey"></span>
-
-      Natural home
-
-    </div>
-
-
-    <div class="legend-item">
-
-      <span class="line"></span>
-
-      Illustrative hypothesis
-
-    </div>
-
-  </div>
-
-</section>
-
-
-
-<!-- =====================================
-     CONTROLS
-===================================== -->
-
-<section class="section">
-
-  <div class="section-title">
-
-    EXPLORE THE HYPOTHESES
-
-  </div>
-
-
-  <div class="buttons">
-
-    <button
-      id="naturalBtn"
-      class="active"
-    >
-
-      🌿 Natural dispersal
-
-    </button>
-
-
-    <button id="humanBtn">
-
-      🚢 Possible human route
-
-    </button>
-
-
-    <button id="resetBtn">
-
-      ↺ Reset
-
-    </button>
-
-  </div>
-
-
-  <div
-    id="info"
-    class="info"
-  >
-
-    <div class="info-icon">
-      🧭
-    </div>
-
-    <div>
-
-      <h3>
-        What are we looking at?
-      </h3>
-
-      <p>
-
-        Select an option above to explore
-        possible explanations.
-
-        The routes are
-        <strong>illustrative hypotheses</strong>,
-        not confirmed movements of these animals.
-
-      </p>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-
-<!-- =====================================
-     FACTS
-===================================== -->
-
-<section class="section">
-
-  <div class="section-title">
-
-    THE MYSTERY
-
-  </div>
-
-
-  <div class="facts">
-
-
-    <div class="fact">
-
-      <div class="fact-number">
-        01
+  <!-- =========================================================
+       HEADER
+  ========================================================== -->
+
+  <header class="site-header">
+    <div class="header-inner">
+
+      <div class="brand">
+        <div class="brand-mark">🦧</div>
+
+        <div>
+          <div class="brand-name">CASE FILE 001</div>
+          <div class="brand-subtitle">THE ORANGUTAN MYSTERY</div>
+        </div>
       </div>
 
-      <h3>
-        Natural home
-      </h3>
-
-      <p>
-
-        Orangutans are naturally found in
-        Southeast Asia, primarily on Borneo
-        and Sumatra.
-
-      </p>
-
-    </div>
-
-
-    <div class="fact">
-
-      <div class="fact-number">
-        02
+      <div class="case-status">
+        <span class="status-dot"></span>
+        INVESTIGATION ONGOING
       </div>
 
-      <h3>
-        Odisha
-      </h3>
-
-      <p>
-
-        Odisha lies far outside the species'
-        natural geographic range.
-
-      </p>
-
     </div>
+  </header>
 
 
-    <div class="fact">
+  <!-- =========================================================
+       HERO
+  ========================================================== -->
 
-      <div class="fact-number">
-        03
+  <main>
+
+    <section class="hero">
+
+      <div class="hero-inner">
+
+        <div class="eyebrow">
+          WILDLIFE INVESTIGATION · ODISHA · INDIA
+        </div>
+
+        <h1>
+          Five Babies.<br />
+          <span>One Mystery.</span>
+        </h1>
+
+        <p class="hero-description">
+          Five juvenile orangutans were discovered together in Odisha —
+          thousands of kilometres from their natural range, with no mothers
+          in sight.
+        </p>
+
+        <div class="hero-meta">
+
+          <div class="meta-item">
+            <strong>05</strong>
+            <span>ORANGUTANS</span>
+          </div>
+
+          <div class="meta-divider"></div>
+
+          <div class="meta-item">
+            <strong>03♂ + 02♀</strong>
+            <span>REPORTED</span>
+          </div>
+
+          <div class="meta-divider"></div>
+
+          <div class="meta-item">
+            <strong>~6–8 MO</strong>
+            <span>REPORTED AGE</span>
+          </div>
+
+          <div class="meta-divider"></div>
+
+          <div class="meta-item">
+            <strong>01</strong>
+            <span>LOCATION</span>
+          </div>
+
+        </div>
+
+        <div class="scroll-hint">
+          <span>↓</span>
+          START INVESTIGATION
+        </div>
+
       </div>
 
-      <h3>
-        Five infants
-      </h3>
+    </section>
 
-      <p>
 
-        The reported discovery of multiple
-        young animals together makes the story
-        particularly unusual.
+    <!-- =========================================================
+         CASE INTRO
+    ========================================================== -->
 
-      </p>
+    <section class="section case-intro">
 
-    </div>
+      <div class="section-inner narrow">
 
+        <div class="section-label">
+          <span>01</span>
+          THE CASE
+        </div>
 
-    <div class="fact">
+        <h2>
+          Something doesn't add up.
+        </h2>
 
-      <div class="fact-number">
-        04
-      </div>
-
-      <h3>
-        The question
-      </h3>
-
-      <p>
-
-        If they did not arrive naturally,
-        what human-mediated pathway could
-        explain their presence?
-
-      </p>
-
-    </div>
-
-
-  </div>
-
-</section>
-
-
-
-<!-- =====================================
-     DISCLAIMER
-===================================== -->
-
-<div class="disclaimer">
-
-  <strong>
-    ⚠️ A note on this visualization
-  </strong>
-
-  <br>
-
-  This interactive map is an exploratory
-  visualization. The hypothetical routes shown
-  here are not intended to represent confirmed
-  routes taken by the animals. Locations and
-  distances are approximate.
-
-</div>
-
-
-
-<!-- =====================================
-     FOOTER
-===================================== -->
-
-<footer>
-
-  <div>
-    🦧 <strong>
-      The Odisha Orangutan Mystery
-    </strong>
-  </div>
-
-  <div>
-    Interactive visualization • Leaflet
-  </div>
-
-</footer>
-
-
-</div>
-
-
-<!-- =====================================
-     LEAFLET JAVASCRIPT
-===================================== -->
-
-<script
-src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
-</script>
-
-
-<script>
-
-console.log("🦧 Starting orangutan visualization");
-
-
-// ========================================
-// LOCATIONS
-// ========================================
-
-const Borneo =
-  [0.9619,114.5548];
-
-const Sumatra =
-  [0.5897,101.3431];
-
-const Balasore =
-  [21.4942,86.9270];
-
-const Nandankanan =
-  [20.3974,85.8067];
-
-const Singapore =
-  [1.3521,103.8198];
-
-const Colombo =
-  [6.9271,79.8612];
-
-const Chennai =
-  [13.0827,80.2707];
-
-
-// ========================================
-// MAP
-// ========================================
-
-const map =
-  L.map("map")
-   .setView(
-     [10,100],
-     4
-   );
-
-
-// ========================================
-// BASEMAP
-// ========================================
-
-L.tileLayer(
-  "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-  {
-    attribution:
-      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    maxZoom: 19
-  }
-).addTo(map);
-
-
-// ========================================
-// ICONS
-// ========================================
-
-const orangutanIcon =
-  L.divIcon({
-
-    className:"",
-
-    html:
-      '<div class="marker">🦧</div>',
-
-    iconSize:
-      [34,34],
-
-    iconAnchor:
-      [17,17]
-
-  });
-
-
-const homeIcon =
-  L.divIcon({
-
-    className:"",
-
-    html:
-      '<div class="home">🌿</div>',
-
-    iconSize:
-      [27,27],
-
-    iconAnchor:
-      [13.5,13.5]
-
-  });
-
-
-// ========================================
-// MARKERS
-// ========================================
-
-L.marker(
-  Borneo,
-  {icon:homeIcon}
-)
-
-.addTo(map)
-
-.bindPopup(
-
-  "<strong>🌿 Borneo</strong><br>" +
-  "<span style='color:#94a3b8'>" +
-  "Natural home of orangutans." +
-  "</span>"
-
-);
-
-
-L.marker(
-  Sumatra,
-  {icon:homeIcon}
-)
-
-.addTo(map)
-
-.bindPopup(
-
-  "<strong>🌿 Sumatra</strong><br>" +
-  "<span style='color:#94a3b8'>" +
-  "Natural home of orangutans." +
-  "</span>"
-
-);
-
-
-L.marker(
-  Balasore,
-  {icon:orangutanIcon}
-)
-
-.addTo(map)
-
-.bindPopup(
-
-  "<strong>🦧 Balasore, Odisha</strong><br>" +
-  "<span style='color:#94a3b8'>" +
-  "Reported discovery location." +
-  "</span>"
-
-);
-
-
-L.marker(
-  Nandankanan,
-  {icon:orangutanIcon}
-)
-
-.addTo(map)
-
-.bindPopup(
-
-  "<strong>🦧 Nandankanan Zoo</strong><br>" +
-  "<span style='color:#94a3b8'>" +
-  "Reported destination for care." +
-  "</span>"
-
-);
-
-
-// ========================================
-// ROUTES
-// ========================================
-
-let routeLayers = [];
-
-
-// ----------------------------------------
-// CLEAR
-// ----------------------------------------
-
-function clearRoutes(){
-
-  routeLayers.forEach(
-    layer =>
-      map.removeLayer(layer)
-  );
-
-  routeLayers = [];
-
-}
-
-
-// ----------------------------------------
-// BUTTON STATE
-// ----------------------------------------
-
-function activeButton(id){
-
-  document
-    .querySelectorAll("button")
-    .forEach(
-      b => b.classList.remove("active")
-    );
-
-  if(id){
-
-    document
-      .getElementById(id)
-      .classList.add("active");
-
-  }
-
-}
-
-
-// ========================================
-// NATURAL ROUTE
-// ========================================
-
-function naturalRoute(){
-
-  clearRoutes();
-
-  activeButton(
-    "naturalBtn"
-  );
-
-
-  const line =
-    L.polyline(
-
-      [
-        Borneo,
-        Balasore
-      ],
-
-      {
-
-        color:"#fb923c",
-
-        weight:4,
-
-        opacity:.9,
-
-        dashArray:"8 10"
-
-      }
-
-    )
-
-    .addTo(map);
-
-
-  routeLayers.push(line);
-
-
-  document
-    .getElementById("info")
-    .innerHTML = `
-
-      <div class="info-icon">
-        🌿
-      </div>
-
-      <div>
-
-        <h3>
-          Natural dispersal?
-        </h3>
+        <p class="lead">
+          Orangutans are native to the rainforests of Southeast Asia.
+          Yet five juveniles were found together in a coastal area of
+          Odisha, India.
+        </p>
 
         <p>
-
-          Borneo is roughly
-          <strong>3,000+ km</strong>
-          from the reported Odisha location.
-
-          A direct natural journey of this
-          scale would be highly implausible.
-
+          Officials are investigating how they arrived there. The current
+          reporting points to multiple possibilities — including trafficking
+          — but no definitive route or network has been established.
         </p>
 
-        <p style="margin-top:8px">
+        <div class="fact-warning">
+          <span class="warning-icon">!</span>
 
-          The orange line is
-          <strong>illustrative</strong>
-          and is not a confirmed animal route.
-
-        </p>
+          <div>
+            <strong>FACT CHECK</strong>
+            <p>
+              This visualization separates reported facts from investigative
+              hypotheses. A route shown on the map is <strong>not</strong>
+              evidence that the animals actually travelled that way.
+            </p>
+          </div>
+        </div>
 
       </div>
 
-    `;
+    </section>
+
 
+    <!-- =========================================================
+         MAP INVESTIGATION
+    ========================================================== -->
+
+    <section class="section map-section">
 
-  map.fitBounds(
+      <div class="section-inner wide">
+
+        <div class="section-label">
+          <span>02</span>
+          MAP THE MYSTERY
+        </div>
+
+        <div class="section-heading-row">
+
+          <div>
+            <h2>
+              How did they get here?
+            </h2>
+
+            <p>
+              Explore four possible explanations.
+            </p>
+          </div>
 
-    L.latLngBounds(
-      [Borneo,Balasore]
-    ),
+          <div class="map-legend">
 
-    {
-      padding:[60,60],
-      maxZoom:5,
-      animate:true
-    }
+            <div>
+              <span class="legend-dot origin"></span>
+              Natural range
+            </div>
 
-  );
+            <div>
+              <span class="legend-dot discovery"></span>
+              Discovery
+            </div>
 
-}
+          </div>
 
+        </div>
 
-// ========================================
-// HUMAN ROUTE
-// ========================================
 
-function humanRoute(){
+        <!-- Route selector -->
 
-  clearRoutes();
+        <div class="route-tabs">
 
-  activeButton(
-    "humanBtn"
-  );
+          <button
+            class="route-tab active"
+            data-route="natural"
+          >
+            <span class="route-icon">🌿</span>
+            <span>
+              <strong>Natural</strong>
+              <small>Could they arrive naturally?</small>
+            </span>
+          </button>
 
+          <button
+            class="route-tab"
+            data-route="road"
+          >
+            <span class="route-icon">🚛</span>
+            <span>
+              <strong>Road</strong>
+              <small>Could they have been transported?</small>
+            </span>
+          </button>
 
-  const route = [
+          <button
+            class="route-tab"
+            data-route="sea"
+          >
+            <span class="route-icon">🚢</span>
+            <span>
+              <strong>Sea</strong>
+              <small>Could a maritime route fit?</small>
+            </span>
+          </button>
 
-    Borneo,
+          <button
+            class="route-tab"
+            data-route="air"
+          >
+            <span class="route-icon">✈️</span>
+            <span>
+              <strong>Air</strong>
+              <small>Could they have arrived by air?</small>
+            </span>
+          </button>
 
-    Singapore,
+        </div>
 
-    Colombo,
 
-    Chennai,
+        <!-- Map -->
 
-    Balasore
+        <div class="map-wrapper">
 
-  ];
+          <div id="map"></div>
 
+          <div class="map-overlay top-left">
+            <div class="map-case-number">
+              CASE 001
+            </div>
 
-  const line =
-    L.polyline(
+            <div class="map-location">
+              SOUTHEAST ASIA → ODISHA
+            </div>
+          </div>
 
-      route,
+          <div class="map-overlay bottom-right">
+            <div class="route-status">
+              <span class="route-status-dot"></span>
+              <span id="routeStatus">
+                EXPLORING NATURAL RANGE
+              </span>
+            </div>
+          </div>
 
-      {
+        </div>
 
-        color:"#fb923c",
 
-        weight:4,
+        <!-- Route analysis -->
 
-        opacity:.95,
+        <div class="route-analysis">
 
-        dashArray:"10 8"
+          <div class="route-analysis-main">
 
-      }
+            <div class="analysis-kicker" id="routeKicker">
+              HYPOTHESIS 01
+            </div>
 
-    )
+            <h3 id="routeTitle">
+              Natural dispersal
+            </h3>
 
-    .addTo(map);
+            <p id="routeDescription">
+              Could five young orangutans have reached Odisha without
+              human assistance?
+            </p>
 
+          </div>
 
-  routeLayers.push(line);
+          <div class="analysis-verdict">
 
+            <div class="verdict-label">
+              INVESTIGATIVE ASSESSMENT
+            </div>
 
-  // Transit points
+            <div
+              class="verdict-value"
+              id="routeVerdict"
+            >
+              HIGHLY UNLIKELY
+            </div>
 
-  [
+            <p id="routeReason">
+              Orangutans are forest-dwelling apes native to the islands
+              of Borneo and Sumatra. There is no natural land corridor
+              connecting their range with Odisha.
+            </p>
 
-    ["Singapore",Singapore],
+          </div>
 
-    ["Colombo",Colombo],
+        </div>
 
-    ["Chennai",Chennai]
-
-  ]
-
-  .forEach(
-
-    point => {
-
-      const marker =
-        L.circleMarker(
-
-          point[1],
-
-          {
-
-            radius:5,
-
-            color:"#f97316",
-
-            weight:2,
-
-            fillColor:"#0f172a",
-
-            fillOpacity:1
-
-          }
-
-        )
-
-        .addTo(map)
-
-        .bindPopup(
-
-          "<strong>" +
-          point[0] +
-          "</strong><br>" +
-
-          "<span style='color:#94a3b8'>" +
-
-          "Illustrative transit point" +
-
-          "</span>"
-
-        );
-
-
-      routeLayers.push(marker);
-
-    }
-
-  );
-
-
-  document
-    .getElementById("info")
-    .innerHTML = `
-
-      <div class="info-icon">
-        🚢
       </div>
 
-      <div>
+    </section>
 
-        <h3>
-          Possible human-mediated route
-        </h3>
+
+    <!-- =========================================================
+         EVIDENCE BOARD
+    ========================================================== -->
+
+    <section class="section evidence-section">
+
+      <div class="section-inner wide">
+
+        <div class="section-label">
+          <span>03</span>
+          EVIDENCE BOARD
+        </div>
+
+        <div class="section-heading-row">
+
+          <div>
+            <h2>
+              The clues
+            </h2>
+
+            <p>
+              Start with what investigators actually know.
+            </p>
+          </div>
+
+        </div>
+
+
+        <div class="evidence-grid">
+
+          <article class="evidence-card confirmed">
+
+            <div class="evidence-top">
+              <span class="evidence-number">CLUE 01</span>
+              <span class="evidence-tag">REPORTED</span>
+            </div>
+
+            <div class="evidence-icon">🦧</div>
+
+            <h3>
+              Five juveniles
+            </h3>
+
+            <p>
+              Five orangutans were found together in the Bhograi area
+              of Balasore district.
+            </p>
+
+          </article>
+
+
+          <article class="evidence-card confirmed">
+
+            <div class="evidence-top">
+              <span class="evidence-number">CLUE 02</span>
+              <span class="evidence-tag">REPORTED</span>
+            </div>
+
+            <div class="evidence-icon">♂♀</div>
+
+            <h3>
+              Three males. Two females.
+            </h3>
+
+            <p>
+              Reports identify three of the juveniles as male and
+              two as female.
+            </p>
+
+          </article>
+
+
+          <article class="evidence-card confirmed">
+
+            <div class="evidence-top">
+              <span class="evidence-number">CLUE 03</span>
+              <span class="evidence-tag">REPORTED</span>
+            </div>
+
+            <div class="evidence-icon">⏱</div>
+
+            <h3>
+              Very young
+            </h3>
+
+            <p>
+              Officials have reported an approximate age of around
+              6–8 months, although the exact age is not yet established.
+            </p>
+
+          </article>
+
+
+          <article class="evidence-card mystery">
+
+            <div class="evidence-top">
+              <span class="evidence-number">CLUE 04</span>
+              <span class="evidence-tag">UNKNOWN</span>
+            </div>
+
+            <div class="evidence-icon">❓</div>
+
+            <h3>
+              No mothers
+            </h3>
+
+            <p>
+              The juveniles were found without their mothers.
+              How they became separated remains a central question.
+            </p>
+
+          </article>
+
+
+          <article class="evidence-card mystery">
+
+            <div class="evidence-top">
+              <span class="evidence-number">CLUE 05</span>
+              <span class="evidence-tag">INVESTIGATING</span>
+            </div>
+
+            <div class="evidence-icon">👁</div>
+
+            <h3>
+              Comfortable around humans
+            </h3>
+
+            <p>
+              Reports indicate the animals appeared relatively
+              comfortable around forest personnel.
+            </p>
+
+          </article>
+
+
+          <article class="evidence-card mystery">
+
+            <div class="evidence-top">
+              <span class="evidence-number">CLUE 06</span>
+              <span class="evidence-tag">LEAD</span>
+            </div>
+
+            <div class="evidence-icon">🚙</div>
+
+            <h3>
+              A black SUV
+            </h3>
+
+            <p>
+              Reports say investigators are examining CCTV after
+              a black SUV was reportedly seen near the area.
+              Its connection to the orangutans is unconfirmed.
+            </p>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         AGE FORENSICS
+    ========================================================== -->
+
+    <section class="section forensics-section">
+
+      <div class="section-inner narrow">
+
+        <div class="section-label">
+          <span>04</span>
+          AGE FORENSICS
+        </div>
+
+        <h2>
+          Why does their age matter?
+        </h2>
+
+        <p class="lead">
+          Because a six-month-old orangutan is not a traveller.
+        </p>
+
+        <div class="timeline">
+
+          <div class="timeline-line"></div>
+
+          <div class="timeline-item">
+
+            <div class="timeline-dot active"></div>
+
+            <div class="timeline-age">
+              ~6–8 MONTHS
+            </div>
+
+            <h3>
+              The reported age
+            </h3>
+
+            <p>
+              At this stage, an orangutan infant is still heavily
+              dependent on its mother.
+            </p>
+
+          </div>
+
+
+          <div class="timeline-item">
+
+            <div class="timeline-dot"></div>
+
+            <div class="timeline-age">
+              YEARS
+            </div>
+
+            <h3>
+              Maternal dependence
+            </h3>
+
+            <p>
+              Orangutan mothers and young remain closely associated
+              for years while the youngster learns to survive.
+            </p>
+
+          </div>
+
+
+          <div class="timeline-item">
+
+            <div class="timeline-dot"></div>
+
+            <div class="timeline-age">
+              7–9 YEARS
+            </div>
+
+            <h3>
+              Long reproductive interval
+            </h3>
+
+            <p>
+              Female orangutans typically reproduce only after
+              long intervals, making five similarly aged infants
+              from one mother implausible.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="forensics-conclusion">
+
+          <div class="forensics-icon">
+            🔎
+          </div>
+
+          <div>
+
+            <div class="small-label">
+              DETECTIVE'S NOTE
+            </div>
+
+            <h3>
+              One mother or several?
+            </h3>
+
+            <p>
+              Five infants of roughly similar age are extremely
+              unlikely to be siblings from a single mother.
+              That makes the question of <strong>how these five
+              individuals came together</strong> particularly important.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         MOTHERS
+    ========================================================== -->
+
+    <section class="section mothers-section">
+
+      <div class="section-inner wide">
+
+        <div class="section-label">
+          <span>05</span>
+          THE MISSING MOTHERS
+        </div>
+
+        <div class="mother-layout">
+
+          <div class="mother-question">
+
+            <div class="question-mark">
+              ?
+            </div>
+
+            <h2>
+              Where are their mothers?
+            </h2>
+
+            <p>
+              This may be the most important unanswered question
+              in the entire case.
+            </p>
+
+            <button
+              class="reveal-button"
+              id="motherReveal"
+            >
+              REVEAL THE INVESTIGATIVE LOGIC
+              <span>→</span>
+            </button>
+
+          </div>
+
+
+          <div
+            class="mother-reveal"
+            id="motherRevealPanel"
+          >
+
+            <div class="reveal-header">
+              <span class="reveal-icon">🔍</span>
+              WHAT INVESTIGATORS WOULD WANT TO KNOW
+            </div>
+
+            <div class="reveal-list">
+
+              <div>
+                <span>01</span>
+                <p>
+                  Were the animals separated from their mothers
+                  before arriving in India?
+                </p>
+              </div>
+
+              <div>
+                <span>02</span>
+                <p>
+                  Did the five juveniles originate from the same
+                  location or from different places?
+                </p>
+              </div>
+
+              <div>
+                <span>03</span>
+                <p>
+                  Could genetic testing help establish whether
+                  any of the animals are related?
+                </p>
+              </div>
+
+              <div>
+                <span>04</span>
+                <p>
+                  Were any orangutans recently reported missing
+                  from zoos or licensed facilities?
+                </p>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         INVESTIGATION BOARD
+    ========================================================== -->
+
+    <section class="section investigation-section">
+
+      <div class="section-inner wide">
+
+        <div class="section-label">
+          <span>06</span>
+          INVESTIGATION BOARD
+        </div>
+
+        <h2>
+          What would you check next?
+        </h2>
+
+        <p class="section-description">
+          These are investigative leads — not claims that any particular
+          route was used.
+        </p>
+
+
+        <div class="investigation-grid">
+
+          <label class="investigation-item">
+
+            <input type="checkbox" />
+
+            <div class="check-box"></div>
+
+            <div>
+              <strong>
+                Airport CCTV
+              </strong>
+
+              <span>
+                Search relevant departure and arrival footage.
+              </span>
+            </div>
+
+          </label>
+
+
+          <label class="investigation-item">
+
+            <input type="checkbox" />
+
+            <div class="check-box"></div>
+
+            <div>
+              <strong>
+                Port & coastal CCTV
+              </strong>
+
+              <span>
+                Examine possible maritime movement.
+              </span>
+            </div>
+
+          </label>
+
+
+          <label class="investigation-item">
+
+            <input type="checkbox" />
+
+            <div class="check-box"></div>
+
+            <div>
+              <strong>
+                Railway records
+              </strong>
+
+              <span>
+                Check relevant stations and CCTV corridors.
+              </span>
+            </div>
+
+          </label>
+
+
+          <label class="investigation-item">
+
+            <input type="checkbox" />
+
+            <div class="check-box"></div>
+
+            <div>
+              <strong>
+                Highway CCTV
+              </strong>
+
+              <span>
+                Trace vehicles approaching the discovery area.
+              </span>
+            </div>
+
+          </label>
+
+
+          <label class="investigation-item">
+
+            <input type="checkbox" />
+
+            <div class="check-box"></div>
+
+            <div>
+              <strong>
+                Zoo records
+              </strong>
+
+              <span>
+                Check whether any orangutans were reported missing.
+              </span>
+            </div>
+
+          </label>
+
+
+          <label class="investigation-item">
+
+            <input type="checkbox" />
+
+            <div class="check-box"></div>
+
+            <div>
+              <strong>
+                DNA / genetics
+              </strong>
+
+              <span>
+                Establish origin and possible relationships.
+              </span>
+            </div>
+
+          </label>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         BLACK SUV
+    ========================================================== -->
+
+    <section class="section clue-section">
+
+      <div class="section-inner narrow">
+
+        <div class="clue-card">
+
+          <div class="clue-card-header">
+
+            <div>
+              <div class="clue-label">
+                CLUE #07
+              </div>
+
+              <h2>
+                The black SUV
+              </h2>
+            </div>
+
+            <div class="clue-badge">
+              UNCONFIRMED
+            </div>
+
+          </div>
+
+
+          <div class="clue-card-body">
+
+            <div class="clue-big-icon">
+              🚙
+            </div>
+
+            <div>
+
+              <p class="clue-lead">
+                A black Thar SUV was reportedly seen near the
+                area around the time of the discovery.
+              </p>
+
+              <p>
+                Investigators are examining CCTV and other evidence.
+                But there is currently <strong>no established connection</strong>
+                between the vehicle and the orangutans.
+              </p>
+
+              <div class="clue-rule">
+                <span>RULE OF INVESTIGATION</span>
+                Don't turn a lead into a conclusion.
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         MAKE YOUR THEORY
+    ========================================================== -->
+
+    <section class="section theory-section">
+
+      <div class="section-inner narrow">
+
+        <div class="section-label">
+          <span>07</span>
+          YOUR THEORY
+        </div>
+
+        <h2>
+          You are the investigator.
+        </h2>
+
+        <p class="lead">
+          Based only on the available clues, what do you think
+          is the most plausible explanation?
+        </p>
+
+
+        <div class="theory-options">
+
+          <button
+            class="theory-option"
+            data-theory="trafficking"
+          >
+            <span class="theory-number">A</span>
+
+            <span>
+              <strong>
+                Wildlife trafficking
+              </strong>
+
+              <small>
+                The animals may have been transported illegally.
+              </small>
+            </span>
+
+            <span class="theory-arrow">→</span>
+          </button>
+
+
+          <button
+            class="theory-option"
+            data-theory="abandoned"
+          >
+            <span class="theory-number">B</span>
+
+            <span>
+              <strong>
+                Abandoned / displaced
+              </strong>
+
+              <small>
+                They may have been separated from human care
+                or abandoned after transport.
+              </small>
+            </span>
+
+            <span class="theory-arrow">→</span>
+          </button>
+
+
+          <button
+            class="theory-option"
+            data-theory="unknown"
+          >
+            <span class="theory-number">C</span>
+
+            <span>
+              <strong>
+                Something else
+              </strong>
+
+              <small>
+                The available evidence is not enough to decide.
+              </small>
+            </span>
+
+            <span class="theory-arrow">→</span>
+          </button>
+
+        </div>
+
+
+        <div
+          class="theory-result"
+          id="theoryResult"
+        >
+
+          <div class="result-icon">
+            🕵️
+          </div>
+
+          <div>
+
+            <div class="small-label">
+              CASE FILE UPDATED
+            </div>
+
+            <h3 id="theoryResultTitle">
+              Your theory has been recorded.
+            </h3>
+
+            <p id="theoryResultText">
+              Remember: a plausible theory is not the same thing
+              as an established fact.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         CURRENT STATUS
+    ========================================================== -->
+
+    <section class="section status-section">
+
+      <div class="section-inner narrow">
+
+        <div class="section-label">
+          <span>08</span>
+          CURRENT STATUS
+        </div>
+
+        <div class="status-card">
+
+          <div class="status-card-top">
+
+            <div>
+              <div class="small-label">
+                INVESTIGATION STATUS
+              </div>
+
+              <h2>
+                Still unsolved.
+              </h2>
+            </div>
+
+            <div class="live-badge">
+              ● LIVE CASE
+            </div>
+
+          </div>
+
+          <p>
+            Authorities are investigating the circumstances surrounding
+            the discovery, including possible transportation routes and
+            the animals' origin. The five juveniles have been moved to
+            Nandankanan Zoo for care and quarantine.
+          </p>
+
+          <div class="status-note">
+            <strong>
+              The biggest unanswered question:
+            </strong>
+
+            <span>
+              How did five very young orangutans from Southeast Asia
+              end up together in coastal Odisha?
+            </span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         SOURCES
+    ========================================================== -->
+
+    <section class="section sources-section">
+
+      <div class="section-inner narrow">
+
+        <div class="section-label">
+          SOURCES & METHODOLOGY
+        </div>
+
+        <h2>
+          Follow the evidence.
+        </h2>
 
         <p>
-
-          One hypothetical explanation is
-          that the animals were transported
-          through a human-controlled pathway.
-
+          This project combines current reporting with general
+          orangutan biology. It intentionally labels uncertain
+          information as a hypothesis or investigative lead.
         </p>
 
-        <p style="margin-top:8px">
+        <div class="sources-list">
 
+          <a
+            href="https://www.downtoearth.org.in/wildlife/5-orangutan-infants-found-in-odishas-balasore-raise-trafficking-concerns"
+            target="_blank"
+            rel="noopener"
+          >
+            <span>
+              DOWN TO EARTH
+            </span>
+
+            <strong>
+              Reporting on the five juveniles and investigation
+            </strong>
+
+            <span>↗</span>
+          </a>
+
+
+          <a
+            href="https://www.indiatoday.in/india/story/odisha-orangutan-cubs-wildlife-trafficking-black-thar-cctv-2784560-2026-09-10"
+            target="_blank"
+            rel="noopener"
+          >
+            <span>
+              INDIA TODAY
+            </span>
+
+            <strong>
+              Investigation, CCTV and possible routes
+            </strong>
+
+            <span>↗</span>
+          </a>
+
+
+          <a
+            href="https://indianexpress.com/article/india/five-orangutan-cubs-found-odisha-wildlife-trafficking-10269350/"
+            target="_blank"
+            rel="noopener"
+          >
+            <span>
+              THE INDIAN EXPRESS
+            </span>
+
+            <strong>
+              Details on the discovery and investigation
+            </strong>
+
+            <span>↗</span>
+          </a>
+
+
+          <a
+            href="https://nationalzoo.si.edu/animals/orangutan"
+            target="_blank"
+            rel="noopener"
+          >
+            <span>
+              SMITHSONIAN NATIONAL ZOO
+            </span>
+
+            <strong>
+              Orangutan biology and maternal dependence
+            </strong>
+
+            <span>↗</span>
+          </a>
+
+        </div>
+
+        <p class="methodology-note">
           <strong>Important:</strong>
-          this route is illustrative only.
-          It does not establish how these
-          animals travelled.
-
+          The route lines in this visualization are illustrative
+          hypotheses. They do not represent confirmed trafficking
+          routes.
         </p>
 
       </div>
 
-    `;
+    </section>
+
+  </main>
 
 
-  map.fitBounds(
+  <!-- =========================================================
+       FOOTER
+  ========================================================== -->
 
-    L.latLngBounds(route),
+  <footer class="site-footer">
 
-    {
-
-      padding:[60,60],
-
-      maxZoom:5,
-
-      animate:true
-
-    }
-
-  );
-
-}
-
-
-// ========================================
-// RESET
-// ========================================
-
-function resetMap(){
-
-  clearRoutes();
-
-  activeButton(null);
-
-
-  document
-    .getElementById("info")
-    .innerHTML = `
-
-      <div class="info-icon">
-        🧭
-      </div>
+    <div class="footer-inner">
 
       <div>
+        <strong>
+          THE ORANGUTAN MYSTERY
+        </strong>
 
-        <h3>
-          What are we looking at?
-        </h3>
-
-        <p>
-
-          Select an option above to explore
-          possible explanations.
-
-          The routes are
-          <strong>illustrative hypotheses</strong>,
-          not confirmed movements.
-
-        </p>
-
+        <span>
+          Interactive investigation · 2026
+        </span>
       </div>
 
-    `;
+      <div class="footer-right">
+        Built as a data-storytelling experiment.
+      </div>
+
+    </div>
+
+  </footer>
 
 
-  map.setView(
+  <!-- =========================================================
+       LEAFLET
+  ========================================================== -->
 
-    [10,100],
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
 
-    4,
-
-    {
-      animate:true
-    }
-
-  );
-
-}
-
-
-// ========================================
-// EVENTS
-// ========================================
-
-document
-  .getElementById("naturalBtn")
-  .onclick =
-    naturalRoute;
-
-
-document
-  .getElementById("humanBtn")
-  .onclick =
-    humanRoute;
-
-
-document
-  .getElementById("resetBtn")
-  .onclick =
-    resetMap;
-
-
-// ========================================
-// FINAL MAP REFRESH
-// ========================================
-
-setTimeout(
-
-  () => map.invalidateSize(),
-
-  500
-
-);
-
-
-console.log(
-  "🦧 Map initialized successfully"
-);
-
-</script>
+  <!-- Our JavaScript -->
+  <script src="script.js"></script>
 
 </body>
 </html>
