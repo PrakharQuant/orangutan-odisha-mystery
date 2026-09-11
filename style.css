@@ -11,7 +11,7 @@
 
   --text: #f2f1e9;
   --muted: #9ca7a2;
-  --faint: #66716c;
+  --faint: #66716c; 
 
   --accent: #d6b36a;
   --accent-soft: rgba(214, 179, 106, 0.12);
@@ -267,7 +267,7 @@ a {
 
 .hero h1 {
   max-width: 760px;
-  font-size: clamp(32px, 8vw, 104px);
+  font-size: clamp(30px, 8vw, 104px);
   line-height: 0.82;
   letter-spacing: -0.055em;
   font-weight: 800;
@@ -318,7 +318,7 @@ a {
 }
 
 .scroll-hint {
-  margin-top: 20px;
+  margin-top: 13px;
   display: flex;
   align-items: center;
   gap: 10px;
