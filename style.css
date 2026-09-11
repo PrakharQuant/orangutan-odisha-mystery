@@ -199,8 +199,9 @@ a {
   z-index: 1;
   top: 0;
   right: 0;
-  width: 52%;
-  height: 100%;
+  width: 46%;
+   height: 82%;
+   top: 9%;
 
   background-image:
     linear-gradient(
@@ -214,7 +215,7 @@ a {
     url("orangutans-visual.png");
 
   background-repeat: no-repeat;
-  background-size: 100% 100%, cover;
+  background-size: 100% 100%, contain;
   background-position: center, center;
 
   opacity: 0.78;
