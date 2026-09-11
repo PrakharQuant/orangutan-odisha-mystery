@@ -928,31 +928,18 @@ function escapeNewsText(text) {
 
 
 function startNewsTicker() {
-
   const track = document.getElementById("heroNewsTrack");
 
   if (!track) return;
 
-  const items = track.querySelectorAll("a");
+  const items = Array.from(track.querySelectorAll("a"));
 
-  if (items.length <= 1) return;
+  if (!items.length) return;
 
-  let index = 0;
-
-  setInterval(() => {
-
-    index++;
-
-    if (index >= items.length) {
-      index = 0;
-    }
-
-    const itemHeight = items[0].offsetHeight;
-
-    track.style.transform =
-      `translateY(-${index * itemHeight}px)`;
-
-  }, 5000);
+  // Duplicate the news items so the horizontal ticker loops continuously.
+  items.forEach((item) => {
+    track.appendChild(item.cloneNode(true));
+  });
 }
 
 
