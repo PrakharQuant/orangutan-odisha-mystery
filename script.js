@@ -936,20 +936,31 @@ function startNewsTicker() {
 
   if (!items.length) return;
 
-  // Duplicate the headlines once for a seamless loop.
+  // Make a second copy for a seamless horizontal loop
   items.forEach((item) => {
     track.appendChild(item.cloneNode(true));
   });
 
-  const totalWidth = track.scrollWidth / 2;
+  // Force horizontal scrolling
+  track.style.display = "flex";
+  track.style.flexDirection = "row";
+  track.style.flexWrap = "nowrap";
+  track.style.width = "max-content";
+  track.style.transform = "translateX(0)";
+
+  const distance = track.scrollWidth / 2;
 
   track.animate(
     [
-      { transform: "translateX(0)" },
-      { transform: `translateX(-${totalWidth}px)` }
+      {
+        transform: "translateX(0)"
+      },
+      {
+        transform: `translateX(-${distance}px)`
+      }
     ],
     {
-      duration: 60000,
+      duration: 45000,
       iterations: Infinity,
       easing: "linear"
     }
