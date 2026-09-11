@@ -176,7 +176,7 @@ a {
 ========================================================= */
 
 .hero {
-  min-height: 450px;
+  min-height: 650px;
   display: flex;
   align-items: center;
   position: relative;
@@ -254,7 +254,7 @@ a {
   width: 100%;
   max-width: var(--max-width);
   margin: auto;
-  padding: 90px 28px;
+  padding: 45px 28px;
 }
 
 .eyebrow {
