@@ -1950,3 +1950,202 @@ a {
   }
 
 }
+/* =========================================================
+   ANIMATED ORANGUTAN HERO VISUAL
+========================================================= */
+
+.hero-visual {
+  position: absolute;
+
+  top: 50%;
+  right: 2%;
+
+  width: min(52vw, 720px);
+  height: 620px;
+
+  transform: translateY(-50%);
+
+  pointer-events: none;
+
+  z-index: 1;
+
+  overflow: hidden;
+
+  mask-image:
+    linear-gradient(
+      to right,
+      transparent 0%,
+      black 20%,
+      black 82%,
+      transparent 100%
+    );
+}
+
+.hero-visual-glow {
+  position: absolute;
+
+  width: 420px;
+  height: 420px;
+
+  top: 100px;
+  right: 80px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(135, 169, 141, 0.16),
+      transparent 68%
+    );
+
+  filter: blur(25px);
+}
+
+.hero-orangutans {
+  position: absolute;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center;
+
+  opacity: 0.78;
+
+  filter:
+    saturate(0.82)
+    contrast(1.05)
+    brightness(0.72);
+
+  transform: scale(1.04);
+
+  animation:
+    orangutanFloat 14s ease-in-out infinite alternate;
+}
+
+
+/* Slow cinematic movement */
+
+@keyframes orangutanFloat {
+
+  0% {
+    transform:
+      scale(1.04)
+      translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform:
+      scale(1.08)
+      translate3d(-8px, -5px, 0);
+  }
+
+  100% {
+    transform:
+      scale(1.12)
+      translate3d(8px, 5px, 0);
+  }
+
+}
+
+
+/* Small evidence label */
+
+.visual-caption {
+  position: absolute;
+
+  right: 50px;
+  bottom: 75px;
+
+  padding: 10px 13px;
+
+  border-left: 1px solid var(--accent);
+
+  background:
+    rgba(11, 15, 14, 0.72);
+
+  backdrop-filter: blur(8px);
+
+  text-align: left;
+
+  animation:
+    captionFloat 5s ease-in-out infinite;
+}
+
+.visual-caption span {
+  display: block;
+
+  color: var(--accent);
+
+  font-size: 8px;
+  font-weight: 900;
+
+  letter-spacing: 0.16em;
+}
+
+.visual-caption small {
+  display: block;
+
+  margin-top: 3px;
+
+  color: var(--muted);
+
+  font-size: 8px;
+  font-weight: 700;
+
+  letter-spacing: 0.12em;
+}
+
+@keyframes captionFloat {
+
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+
+}
+
+
+/* =========================================================
+   HERO — MOBILE
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .hero-visual {
+    width: 70vw;
+    height: 500px;
+
+    right: -15%;
+
+    opacity: 0.35;
+  }
+
+  .hero-inner {
+    z-index: 3;
+  }
+
+}
+
+
+@media (max-width: 650px) {
+
+  .hero-visual {
+    width: 100vw;
+    height: 430px;
+
+    right: -20%;
+    top: 58%;
+
+    opacity: 0.22;
+  }
+
+  .visual-caption {
+    display: none;
+  }
+
+}
