@@ -267,8 +267,8 @@ a {
 
 .hero h1 {
   max-width: 760px;
-  font-size: clamp(52px, 8vw, 104px);
-  line-height: 0.94;
+  font-size: clamp(48px, 8vw, 104px);
+  line-height: 0.93;
   letter-spacing: -0.055em;
   font-weight: 800;
 }
@@ -279,14 +279,14 @@ a {
 
 .hero-description {
   max-width: 650px;
-  margin-top: 30px;
+  margin-top: 27px;
   color: var(--muted);
   font-size: 18px;
-  line-height: 1.7;
+  line-height: 1.6;
 }
 
 .hero-meta {
-  margin-top: 42px;
+  margin-top: 25px;
   display: flex;
   align-items: center;
   gap: 24px;
