@@ -197,7 +197,7 @@ a {
   content: "";
   position: absolute;
   z-index: 1;
-  top: -17%;
+  top: 0%;
   right: 0%;
   width: 70%;
    height: 90%;
@@ -254,7 +254,7 @@ a {
   width: 100%;
   max-width: var(--max-width);
   margin: auto;
-  padding: 45px 28px;
+  padding: 15px 28px;
 }
 
 .eyebrow {
