@@ -1523,3 +1523,112 @@ console.log(
 console.log(
   "Routes shown on the map are illustrative hypotheses — not confirmed routes."
 );
+/* =========================================================
+   LIVE CASE NEWS
+========================================================= */
+
+async function loadCaseNews() {
+  const newsTrack = document.getElementById("heroNewsTrack");
+
+  if (!newsTrack) return;
+
+  try {
+    const response = await fetch("news.json?" + Date.now());
+
+    if (!response.ok) {
+      throw new Error("News feed unavailable");
+    }
+
+    const data = await response.json();
+
+    if (!data.items || data.items.length === 0) {
+      newsTrack.innerHTML = `
+        <div class="news-loading">
+          No recent reports found.
+        </div>
+      `;
+      return;
+    }
+
+    newsTrack.innerHTML = data.items
+      .slice(0, 6)
+      .map((item) => {
+        const date = new Date(item.published);
+
+        const formattedDate = date.toLocaleDateString("en-IN", {
+          day: "2-digit",
+          month: "short"
+        }).toUpperCase();
+
+        return `
+          <a
+            href="${item.link}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span>${formattedDate}</span>
+
+            <div>
+              ${escapeNewsText(item.title)}
+
+              <small>
+                ${escapeNewsText(item.source || "NEWS REPORT")}
+              </small>
+            </div>
+          </a>
+        `;
+      })
+      .join("");
+
+    startNewsTicker();
+
+  } catch (error) {
+
+    console.error("Could not load case news:", error);
+
+    newsTrack.innerHTML = `
+      <div class="news-loading">
+        Latest reports unavailable.
+      </div>
+    `;
+  }
+}
+
+
+function escapeNewsText(text) {
+  const div = document.createElement("div");
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+
+function startNewsTicker() {
+
+  const track = document.getElementById("heroNewsTrack");
+
+  if (!track) return;
+
+  const items = track.querySelectorAll("a");
+
+  if (items.length <= 1) return;
+
+  let index = 0;
+
+  setInterval(() => {
+
+    index++;
+
+    if (index >= items.length) {
+      index = 0;
+    }
+
+    const itemHeight = items[0].offsetHeight;
+
+    track.style.transform =
+      `translateY(-${index * itemHeight}px)`;
+
+  }, 5000);
+}
+
+
+loadCaseNews();
