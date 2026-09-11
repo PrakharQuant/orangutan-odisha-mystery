@@ -1,477 +1,683 @@
-// ============================================================
-// THE ODISHA ORANGUTAN MYSTERY
-// ============================================================
+/* =========================================================
+   THE ORANGUTAN MYSTERY
+   Interactive investigation logic
+========================================================= */
 
-console.log("🦧 Orangutan map script starting...");
+
+/* =========================================================
+   1. MAP SETUP
+========================================================= */
+
+// Approximate locations used for storytelling.
+// Route lines are illustrative hypotheses, NOT confirmed routes.
+
+const discoveryPoint = [21.47, 87.27];
+const southeastAsiaPoint = [0.8, 114.0];
+const nandankananPoint = [20.39, 85.82];
+
+const map = L.map("map", {
+  zoomControl: true,
+  scrollWheelZoom: true
+}).setView([12, 101], 4);
 
 
-// ------------------------------------------------------------
-// LOCATIONS
-// ------------------------------------------------------------
+/* OpenStreetMap */
 
-const LOCATIONS = {
-  borneo: [0.9619, 114.5548],
-  sumatra: [0.5897, 101.3431],
-  balasore: [21.4942, 86.9270],
-  nandankanan: [20.3974, 85.8067],
+L.tileLayer(
+  "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+  {
+    attribution:
+      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 
-  // Illustrative human-mediated route only
-  singapore: [1.3521, 103.8198],
-  colombo: [6.9271, 79.8612],
-  chennai: [13.0827, 80.2707]
+    maxZoom: 19
+  }
+).addTo(map);
+
+
+/* =========================================================
+   2. CUSTOM MARKERS
+========================================================= */
+
+const originIcon = L.divIcon({
+  className: "",
+  html: `
+    <div class="case-marker origin-marker">
+      🌿
+    </div>
+  `,
+  iconSize: [30, 30],
+  iconAnchor: [15, 15]
+});
+
+
+const discoveryIcon = L.divIcon({
+  className: "",
+  html: `
+    <div class="case-marker">
+      🦧
+    </div>
+  `,
+  iconSize: [30, 30],
+  iconAnchor: [15, 15]
+});
+
+
+const zooIcon = L.divIcon({
+  className: "",
+  html: `
+    <div class="case-marker">
+      +
+    </div>
+  `,
+  iconSize: [30, 30],
+  iconAnchor: [15, 15]
+});
+
+
+/* Origin marker */
+
+const originMarker = L.marker(
+  southeastAsiaPoint,
+  {
+    icon: originIcon
+  }
+)
+.addTo(map)
+.bindPopup(`
+  <strong>Natural range</strong><br>
+  Borneo / Sumatra region
+  <br><br>
+  <small>
+    Orangutans are native to Southeast Asia.
+  </small>
+`);
+
+
+/* Discovery marker */
+
+const discoveryMarker = L.marker(
+  discoveryPoint,
+  {
+    icon: discoveryIcon
+  }
+)
+.addTo(map)
+.bindPopup(`
+  <strong>Discovery area</strong><br>
+  Bhograi, Balasore, Odisha
+  <br><br>
+  <small>
+    Five juvenile orangutans were reportedly found here.
+  </small>
+`);
+
+
+/* Nandankanan marker */
+
+const zooMarker = L.marker(
+  nandankananPoint,
+  {
+    icon: zooIcon
+  }
+)
+.addTo(map)
+.bindPopup(`
+  <strong>Nandankanan Zoo</strong><br>
+  Odisha
+  <br><br>
+  <small>
+    Reported destination for care and quarantine.
+  </small>
+`);
+
+
+/* =========================================================
+   3. ROUTE HYPOTHESES
+========================================================= */
+
+const routeData = {
+
+  natural: {
+
+    kicker: "HYPOTHESIS 01",
+
+    title: "Natural dispersal",
+
+    description:
+      "Could five young orangutans have reached Odisha without human assistance?",
+
+    verdict:
+      "HIGHLY UNLIKELY",
+
+    reason:
+      "Orangutans are forest-dwelling apes native to Borneo and Sumatra. There is no natural land corridor connecting their native range with Odisha.",
+
+    status:
+      "EXPLORING NATURAL RANGE",
+
+    line: [
+      southeastAsiaPoint,
+      [5, 111],
+      [10, 105],
+      [15, 99],
+      [18, 94],
+      discoveryPoint
+    ],
+
+    style: {
+      dashArray: "8 10",
+      weight: 2,
+      opacity: 0.7
+    }
+
+  },
+
+
+  road: {
+
+    kicker: "HYPOTHESIS 02",
+
+    title: "Road / overland transport",
+
+    description:
+      "Could the animals have been moved through a multi-leg human transportation network?",
+
+    verdict:
+      "INVESTIGATIVE LEAD",
+
+    reason:
+      "A human transportation scenario would fit the basic geographic problem, but the actual route, vehicles and movements would need independent evidence such as CCTV, travel records or witness accounts.",
+
+    status:
+      "EXAMINING LAND ROUTES",
+
+    line: [
+      southeastAsiaPoint,
+      [5, 111],
+      [12, 105],
+      [17, 99],
+      [20, 93],
+      discoveryPoint
+    ],
+
+    style: {
+      dashArray: "3 8",
+      weight: 3,
+      opacity: 0.85
+    }
+
+  },
+
+
+  sea: {
+
+    kicker: "HYPOTHESIS 03",
+
+    title: "Maritime transport",
+
+    description:
+      "Could a maritime route explain how the animals crossed the region?",
+
+    verdict:
+      "INVESTIGATIVE LEAD",
+
+    reason:
+      "The discovery occurred in coastal Odisha, making maritime movement a hypothesis worth examining. Coast Guard, port and coastal CCTV evidence would be needed to establish such a route.",
+
+    status:
+      "EXAMINING SEA ROUTES",
+
+    line: [
+      southeastAsiaPoint,
+      [0, 110],
+      [1, 103],
+      [5, 98],
+      [10, 94],
+      [16, 91],
+      discoveryPoint
+    ],
+
+    style: {
+      dashArray: "12 8",
+      weight: 3,
+      opacity: 0.85
+    }
+
+  },
+
+
+  air: {
+
+    kicker: "HYPOTHESIS 04",
+
+    title: "Air transport",
+
+    description:
+      "Could the animals have been transported by air before reaching Odisha?",
+
+    verdict:
+      "POSSIBLE — NEEDS EVIDENCE",
+
+    reason:
+      "Air travel could theoretically bridge the geographic distance quickly. Relevant airport CCTV, cargo records, customs documentation and animal-transport records would be important evidence.",
+
+    status:
+      "EXAMINING AIR ROUTES",
+
+    line: [
+      southeastAsiaPoint,
+      [7, 110],
+      [13, 104],
+      [18, 97],
+      discoveryPoint
+    ],
+
+    style: {
+      dashArray: "2 7",
+      weight: 3,
+      opacity: 0.85
+    }
+
+  }
+
 };
 
 
-// ------------------------------------------------------------
-// WAIT UNTIL LEAFLET IS AVAILABLE
-// ------------------------------------------------------------
+/* Current route layer */
 
-function startMap() {
+let currentRoute = null;
 
-  if (typeof L === "undefined") {
-    console.error("Leaflet has not loaded.");
+
+/* =========================================================
+   4. DRAW ROUTE
+========================================================= */
+
+function drawRoute(routeName) {
+
+  const route = routeData[routeName];
+
+  if (!route) {
     return;
   }
 
-  console.log("Leaflet loaded:", L.version);
+
+  // Remove previous route
+
+  if (currentRoute) {
+    map.removeLayer(currentRoute);
+  }
 
 
-  // ----------------------------------------------------------
-  // MAP
-  // ----------------------------------------------------------
+  // Draw new route
 
-  const map = L.map("map", {
-    zoomControl: true,
-    minZoom: 3,
-    maxZoom: 8
-  }).setView([10, 100], 4);
-
-
-  // ----------------------------------------------------------
-  // BASEMAP
-  // ----------------------------------------------------------
-
-  L.tileLayer(
-    "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+  currentRoute = L.polyline(
+    route.line,
     {
-      attribution:
-        "&copy; OpenStreetMap contributors &copy; CARTO",
-
-      subdomains: "abcd",
-
-      maxZoom: 19
+      color: "#d6b36a",
+      ...route.style
     }
   ).addTo(map);
 
 
-  // ----------------------------------------------------------
-  // CUSTOM ICONS
-  // ----------------------------------------------------------
+  // Bring markers to front
 
-  function orangutanIcon() {
+  originMarker.bringToFront();
+  discoveryMarker.bringToFront();
+  zooMarker.bringToFront();
 
-    return L.divIcon({
-      className: "",
-      html: `
-        <div style="
-          width:32px;
-          height:32px;
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          background:#f97316;
-          border:2px solid white;
-          border-radius:50%;
-          box-shadow:0 0 0 4px rgba(249,115,22,.25);
-          font-size:17px;
-        ">
-          🦧
-        </div>
-      `,
-      iconSize: [32, 32],
-      iconAnchor: [16, 16]
-    });
 
-  }
+  // Update analysis text
 
+  document.getElementById("routeKicker").textContent =
+    route.kicker;
 
-  function homeIcon() {
+  document.getElementById("routeTitle").textContent =
+    route.title;
 
-    return L.divIcon({
-      className: "",
-      html: `
-        <div style="
-          width:26px;
-          height:26px;
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          background:#475569;
-          border:2px solid #cbd5e1;
-          border-radius:50%;
-          box-shadow:0 0 0 4px rgba(148,163,184,.12);
-          font-size:13px;
-        ">
-          🌿
-        </div>
-      `,
-      iconSize: [26, 26],
-      iconAnchor: [13, 13]
-    });
+  document.getElementById("routeDescription").textContent =
+    route.description;
 
-  }
+  document.getElementById("routeVerdict").textContent =
+    route.verdict;
 
+  document.getElementById("routeReason").textContent =
+    route.reason;
 
-  // ----------------------------------------------------------
-  // NATURAL RANGE
-  // ----------------------------------------------------------
+  document.getElementById("routeStatus").textContent =
+    route.status;
 
-  L.marker(
-    LOCATIONS.borneo,
-    { icon: homeIcon() }
-  )
-  .addTo(map)
-  .bindPopup(`
-    <strong>🌿 Borneo</strong><br>
-    Natural home of orangutans.
-  `);
 
+  // Slightly zoom to show route
 
-  L.marker(
-    LOCATIONS.sumatra,
-    { icon: homeIcon() }
-  )
-  .addTo(map)
-  .bindPopup(`
-    <strong>🌿 Sumatra</strong><br>
-    Natural home of orangutans.
-  `);
+  const bounds = L.latLngBounds(route.line);
 
-
-  // ----------------------------------------------------------
-  // ODISHA
-  // ----------------------------------------------------------
-
-  L.marker(
-    LOCATIONS.balasore,
-    { icon: orangutanIcon() }
-  )
-  .addTo(map)
-  .bindPopup(`
-    <strong>🦧 Balasore, Odisha</strong><br>
-    Reported discovery location.
-  `);
-
-
-  L.marker(
-    LOCATIONS.nandankanan,
-    { icon: orangutanIcon() }
-  )
-  .addTo(map)
-  .bindPopup(`
-    <strong>🦧 Nandankanan Zoo</strong><br>
-    Reported destination for care/quarantine.
-  `);
-
-
-  // ----------------------------------------------------------
-  // ROUTES
-  // ----------------------------------------------------------
-
-  let routeLayers = [];
-
-
-  function clearRoutes() {
-
-    routeLayers.forEach(layer => {
-      map.removeLayer(layer);
-    });
-
-    routeLayers = [];
-
-  }
-
-
-  // ----------------------------------------------------------
-  // NATURAL ROUTE
-  // ----------------------------------------------------------
-
-  function showNatural() {
-
-    clearRoutes();
-
-    setActive("naturalBtn");
-
-
-    const route = L.polyline(
-      [
-        LOCATIONS.borneo,
-        LOCATIONS.balasore
-      ],
-      {
-        color: "#fb923c",
-        weight: 4,
-        opacity: 0.9,
-        dashArray: "8 10"
-      }
-    ).addTo(map);
-
-
-    routeLayers.push(route);
-
-
-    updateInfo(`
-      <div class="info-icon">🌿</div>
-
-      <div>
-        <h3>Natural dispersal?</h3>
-
-        <p>
-          Borneo is roughly
-          <strong>3,000+ km</strong>
-          from the reported Odisha location.
-          A direct natural journey of this scale would be
-          highly implausible for orangutans.
-        </p>
-
-        <p style="margin-top:8px">
-          The orange line is illustrative and
-          <strong>not a confirmed animal route.</strong>
-        </p>
-      </div>
-    `);
-
-
-    fitRoute([
-      LOCATIONS.borneo,
-      LOCATIONS.balasore
-    ]);
-
-  }
-
-
-  // ----------------------------------------------------------
-  // HUMAN ROUTE
-  // ----------------------------------------------------------
-
-  function showHuman() {
-
-    clearRoutes();
-
-    setActive("humanBtn");
-
-
-    const route = [
-      LOCATIONS.borneo,
-      LOCATIONS.singapore,
-      LOCATIONS.colombo,
-      LOCATIONS.chennai,
-      LOCATIONS.balasore
-    ];
-
-
-    const line = L.polyline(
-      route,
-      {
-        color: "#fb923c",
-        weight: 4,
-        opacity: 0.95,
-        dashArray: "10 8"
-      }
-    ).addTo(map);
-
-
-    routeLayers.push(line);
-
-
-    // Transit points
-
-    [
-      ["Singapore", LOCATIONS.singapore],
-      ["Colombo", LOCATIONS.colombo],
-      ["Chennai", LOCATIONS.chennai]
-    ].forEach(point => {
-
-      const marker = L.circleMarker(
-        point[1],
-        {
-          radius: 5,
-          color: "#f97316",
-          weight: 2,
-          fillColor: "#0f172a",
-          fillOpacity: 1
-        }
-      )
-      .addTo(map)
-      .bindPopup(`
-        <strong>${point[0]}</strong><br>
-        <span style="color:#94a3b8">
-          Illustrative transit point
-        </span>
-      `);
-
-
-      routeLayers.push(marker);
-
-    });
-
-
-    updateInfo(`
-      <div class="info-icon">🚢</div>
-
-      <div>
-        <h3>Possible human-mediated route</h3>
-
-        <p>
-          One hypothetical explanation is that the animals
-          were transported through a human-controlled pathway,
-          potentially involving maritime or commercial movement.
-        </p>
-
-        <p style="margin-top:8px">
-          <strong>Important:</strong>
-          this route is illustrative only.
-          It does not establish how these animals travelled.
-        </p>
-      </div>
-    `);
-
-
-    fitRoute(route);
-
-  }
-
-
-  // ----------------------------------------------------------
-  // RESET
-  // ----------------------------------------------------------
-
-  function resetMap() {
-
-    clearRoutes();
-
-    setActive(null);
-
-
-    updateInfo(`
-      <div class="info-icon">🧭</div>
-
-      <div>
-        <h3>What are we looking at?</h3>
-
-        <p>
-          Select an option above to explore possible explanations.
-          The routes are <strong>illustrative hypotheses</strong>,
-          not confirmed movements of these animals.
-        </p>
-      </div>
-    `);
-
-
-    map.setView(
-      [10, 100],
-      4,
-      { animate: true }
-    );
-
-  }
-
-
-  // ----------------------------------------------------------
-  // BUTTONS
-  // ----------------------------------------------------------
-
-  document
-    .getElementById("naturalBtn")
-    .addEventListener("click", showNatural);
-
-
-  document
-    .getElementById("humanBtn")
-    .addEventListener("click", showHuman);
-
-
-  document
-    .getElementById("resetBtn")
-    .addEventListener("click", resetMap);
-
-
-  // ----------------------------------------------------------
-  // HELPERS
-  // ----------------------------------------------------------
-
-  function setActive(id) {
-
-    document
-      .querySelectorAll(".control-btn")
-      .forEach(button => {
-        button.classList.remove("active");
-      });
-
-
-    if (id) {
-      document
-        .getElementById(id)
-        .classList.add("active");
-    }
-
-  }
-
-
-  function updateInfo(html) {
-
-    document
-      .getElementById("info")
-      .innerHTML = html;
-
-  }
-
-
-  function fitRoute(points) {
-
-    const bounds = L.latLngBounds(points);
-
-    map.fitBounds(
-      bounds,
-      {
-        padding: [50, 50],
-        maxZoom: 5,
-        animate: true
-      }
-    );
-
-  }
-
-
-  // ----------------------------------------------------------
-  // FORCE MAP RESIZE
-  // ----------------------------------------------------------
-
-  setTimeout(() => {
-    map.invalidateSize();
-  }, 500);
-
-
-  console.log("🦧 Orangutan map initialized successfully.");
-
+  map.fitBounds(bounds, {
+    padding: [55, 55],
+    maxZoom: 5,
+    animate: true,
+    duration: 0.7
+  });
 }
 
 
-// ------------------------------------------------------------
-// START
-// ------------------------------------------------------------
+/* Initial route */
 
-// Leaflet is loaded before this script in index.html,
-// so normally this runs immediately.
+drawRoute("natural");
 
-if (typeof L !== "undefined") {
 
-  startMap();
+/* =========================================================
+   5. ROUTE BUTTONS
+========================================================= */
 
-} else {
+const routeTabs =
+  document.querySelectorAll(".route-tab");
 
-  console.error(
-    "Leaflet is missing. Check the Leaflet <script> in index.html."
+
+routeTabs.forEach((button) => {
+
+  button.addEventListener("click", () => {
+
+    const routeName =
+      button.dataset.route;
+
+
+    // Remove active state
+
+    routeTabs.forEach((tab) => {
+      tab.classList.remove("active");
+    });
+
+
+    // Activate selected tab
+
+    button.classList.add("active");
+
+
+    // Draw route
+
+    drawRoute(routeName);
+
+  });
+
+});
+
+
+/* =========================================================
+   6. MOTHER REVEAL
+========================================================= */
+
+const motherRevealButton =
+  document.getElementById("motherReveal");
+
+const motherRevealPanel =
+  document.getElementById("motherRevealPanel");
+
+
+let motherRevealed = false;
+
+
+motherRevealButton.addEventListener("click", () => {
+
+  motherRevealed = !motherRevealed;
+
+
+  if (motherRevealed) {
+
+    motherRevealPanel.style.display = "block";
+
+    motherRevealButton.innerHTML =
+      `HIDE INVESTIGATIVE LOGIC <span>↑</span>`;
+
+  } else {
+
+    motherRevealPanel.style.display = "none";
+
+    motherRevealButton.innerHTML =
+      `REVEAL THE INVESTIGATIVE LOGIC <span>→</span>`;
+
+  }
+
+});
+
+
+/* =========================================================
+   7. INVESTIGATION CHECKLIST
+========================================================= */
+
+const investigationItems =
+  document.querySelectorAll(
+    ".investigation-item input"
   );
 
-}
+
+investigationItems.forEach((checkbox) => {
+
+  checkbox.addEventListener("change", () => {
+
+    const parent =
+      checkbox.closest(".investigation-item");
+
+
+    if (checkbox.checked) {
+
+      parent.style.background =
+        "rgba(135,169,141,0.08)";
+
+      parent.style.borderColor =
+        "rgba(135,169,141,0.25)";
+
+    } else {
+
+      parent.style.background =
+        "";
+
+      parent.style.borderColor =
+        "";
+
+    }
+
+  });
+
+});
+
+
+/* =========================================================
+   8. THEORY SELECTOR
+========================================================= */
+
+const theoryButtons =
+  document.querySelectorAll(".theory-option");
+
+const theoryResult =
+  document.getElementById("theoryResult");
+
+const theoryResultTitle =
+  document.getElementById("theoryResultTitle");
+
+const theoryResultText =
+  document.getElementById("theoryResultText");
+
+
+const theoryMessages = {
+
+  trafficking: {
+
+    title:
+      "Wildlife trafficking is a plausible theory.",
+
+    text:
+      "The geographic distance, the animals' young age and the absence of their mothers make human involvement a serious investigative possibility. But the available evidence does not establish trafficking as fact."
+
+  },
+
+
+  abandoned: {
+
+    title:
+      "Displacement is another possibility.",
+
+    text:
+      "The animals may have been transported or held by people and later abandoned. This remains a hypothesis until investigators establish where they came from and how they reached Odisha."
+
+  },
+
+
+  unknown: {
+
+    title:
+      "Keeping the case open is rational.",
+
+    text:
+      "The evidence currently available cannot establish a definitive explanation. Good investigation means resisting the temptation to turn an intriguing clue into a conclusion."
+
+  }
+
+};
+
+
+theoryButtons.forEach((button) => {
+
+  button.addEventListener("click", () => {
+
+    const theory =
+      button.dataset.theory;
+
+    const result =
+      theoryMessages[theory];
+
+
+    if (!result) {
+      return;
+    }
+
+
+    // Remove previous selection
+
+    theoryButtons.forEach((item) => {
+      item.classList.remove("selected");
+    });
+
+
+    button.classList.add("selected");
+
+
+    // Update result
+
+    theoryResultTitle.textContent =
+      result.title;
+
+    theoryResultText.textContent =
+      result.text;
+
+
+    theoryResult.classList.add("visible");
+
+
+    // Scroll result into view
+
+    setTimeout(() => {
+
+      theoryResult.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest"
+      });
+
+    }, 100);
+
+  });
+
+});
+
+
+/* =========================================================
+   9. SIMPLE SCROLL REVEAL
+========================================================= */
+
+const revealElements =
+  document.querySelectorAll(
+    ".evidence-card, .timeline-item, .investigation-item, .clue-card, .status-card"
+  );
+
+
+const revealObserver =
+  new IntersectionObserver(
+    (entries) => {
+
+      entries.forEach((entry) => {
+
+        if (!entry.isIntersecting) {
+          return;
+        }
+
+
+        entry.target.style.opacity = "1";
+        entry.target.style.transform =
+          "translateY(0)";
+
+
+        revealObserver.unobserve(
+          entry.target
+        );
+
+      });
+
+    },
+    {
+      threshold: 0.08
+    }
+  );
+
+
+revealElements.forEach((element) => {
+
+  element.style.opacity = "0";
+
+  element.style.transform =
+    "translateY(15px)";
+
+  element.style.transition =
+    "opacity 0.55s ease, transform 0.55s ease";
+
+  revealObserver.observe(element);
+
+});
+
+
+/* =========================================================
+   10. MAP RESIZE
+========================================================= */
+
+// Helps Leaflet render correctly after the page loads.
+
+setTimeout(() => {
+
+  map.invalidateSize();
+
+}, 400);
+
+
+/* Also recalculate when the window changes size. */
+
+window.addEventListener("resize", () => {
+
+  map.invalidateSize();
+
+});
+
+
+/* =========================================================
+   11. CONSOLE SIGNATURE
+========================================================= */
+
+console.log(
+  "%cCASE FILE 001",
+  "font-size:20px;font-weight:bold;"
+);
+
+console.log(
+  "The Odisha Orangutan Mystery"
+);
+
+console.log(
+  "Routes shown on the map are illustrative hypotheses — not confirmed routes."
+);
