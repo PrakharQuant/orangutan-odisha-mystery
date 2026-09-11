@@ -936,17 +936,24 @@ function startNewsTicker() {
 
   if (!items.length) return;
 
+  // Duplicate once for a seamless loop
   items.forEach((item) => {
     track.appendChild(item.cloneNode(true));
   });
 
+  const firstItem = track.querySelector("a");
+
+  if (!firstItem) return;
+
+  const distance = track.scrollWidth / 2;
+
   track.animate(
     [
       { transform: "translateX(0)" },
-      { transform: "translateX(-50%)" }
+      { transform: `translateX(-${distance}px)` }
     ],
     {
-      duration: 45000,
+      duration: 50000,
       iterations: Infinity,
       easing: "linear"
     }
