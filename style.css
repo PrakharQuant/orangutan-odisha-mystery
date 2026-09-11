@@ -1,197 +1,1952 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+/* =========================================================
+   THE ORANGUTAN MYSTERY
+   Main stylesheet
+========================================================= */
 
-  <title>🦧 The Odisha Orangutan Mystery</title>
+:root {
+  --bg: #0b0f0e;
+  --bg-soft: #101615;
+  --panel: #141b19;
+  --panel-light: #19221f;
 
-  <link rel="stylesheet" href="style.css">
+  --text: #f2f1e9;
+  --muted: #9ca7a2;
+  --faint: #66716c;
 
-  <!-- Leaflet -->
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-  />
-</head>
+  --accent: #d6b36a;
+  --accent-soft: rgba(214, 179, 106, 0.12);
 
-<body>
+  --green: #87a98d;
+  --green-soft: rgba(135, 169, 141, 0.12);
 
-  <div class="page">
+  --red: #d77967;
+  --red-soft: rgba(215, 121, 103, 0.12);
 
-    <!-- HEADER -->
-    <header class="hero">
-      <div class="eyebrow">WILDLIFE MYSTERY • INDIA • SEPTEMBER 2026</div>
+  --border: rgba(255, 255, 255, 0.09);
+  --border-strong: rgba(255, 255, 255, 0.15);
 
-      <h1>🦧 Five Baby Orangutans<br>in Odisha?</h1>
+  --max-width: 1180px;
+  --narrow-width: 820px;
 
-      <p class="subtitle">
-        Thousands of kilometres from their natural range.
-        So how could they have ended up here?
-      </p>
-
-      <div class="distance-pill">
-        🌏 ~3,000+ km from their natural range
-      </div>
-    </header>
+  --radius: 14px;
+  --radius-small: 9px;
+}
 
 
-    <!-- MAP -->
-    <section class="map-section">
+/* =========================================================
+   RESET
+========================================================= */
 
-      <div class="section-label">
-        <span>THE MAP</span>
-        <span class="hint">Click a location</span>
-      </div>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-      <div id="map"></div>
+html {
+  scroll-behavior: smooth;
+}
 
-      <div class="legend">
-        <div>
-          <span class="legend-dot orange"></span>
-          Reported / known location
-        </div>
+body {
+  background: var(--bg);
+  color: var(--text);
 
-        <div>
-          <span class="legend-dot grey"></span>
-          Natural range
-        </div>
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
 
-        <div>
-          <span class="legend-line"></span>
-          Illustrative hypothesis
-        </div>
-      </div>
+  line-height: 1.6;
+  overflow-x: hidden;
+}
 
-    </section>
+button,
+input {
+  font: inherit;
+}
 
+button {
+  cursor: pointer;
+}
 
-    <!-- CONTROLS -->
-    <section class="controls-section">
-
-      <div class="section-label">
-        <span>EXPLORE THE HYPOTHESES</span>
-      </div>
-
-      <div class="buttons">
-
-        <button id="naturalBtn" class="control-btn active">
-          🌿 Natural dispersal
-        </button>
-
-        <button id="humanBtn" class="control-btn">
-          🚢 Possible human route
-        </button>
-
-        <button id="resetBtn" class="control-btn reset">
-          ↺ Reset
-        </button>
-
-      </div>
-
-      <div id="info" class="info-card">
-        <div class="info-icon">🧭</div>
-
-        <div>
-          <h3>What are we looking at?</h3>
-
-          <p>
-            Select an option above to explore possible explanations.
-            The routes are <strong>illustrative hypotheses</strong>,
-            not confirmed movements of these animals.
-          </p>
-        </div>
-      </div>
-
-    </section>
+a {
+  color: inherit;
+  text-decoration: none;
+}
 
 
-    <!-- FACTS -->
-    <section class="facts">
+/* =========================================================
+   HEADER
+========================================================= */
 
-      <div class="section-label">
-        <span>THE MYSTERY</span>
-      </div>
+.site-header {
+  position: relative;
+  z-index: 20;
 
-      <div class="fact-grid">
+  border-bottom: 1px solid var(--border);
 
-        <div class="fact">
-          <div class="fact-number">01</div>
-          <h3>Natural home</h3>
-          <p>
-            Orangutans are naturally found in Southeast Asia,
-            primarily on the islands of Borneo and Sumatra.
-          </p>
-        </div>
+  background:
+    linear-gradient(
+      180deg,
+      rgba(11, 15, 14, 0.98),
+      rgba(11, 15, 14, 0.88)
+    );
+}
 
-        <div class="fact">
-          <div class="fact-number">02</div>
-          <h3>Odisha</h3>
-          <p>
-            Odisha lies far outside the species' natural
-            geographic range.
-          </p>
-        </div>
+.header-inner {
+  max-width: var(--max-width);
+  margin: auto;
 
-        <div class="fact">
-          <div class="fact-number">03</div>
-          <h3>Five infants</h3>
-          <p>
-            The reported discovery of multiple young animals
-            together makes the story particularly unusual.
-          </p>
-        </div>
+  padding: 18px 28px;
 
-        <div class="fact">
-          <div class="fact-number">04</div>
-          <h3>The question</h3>
-          <p>
-            If they did not arrive naturally, what human-mediated
-            pathway could explain their presence?
-          </p>
-        </div>
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
 
-      </div>
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 
-    </section>
+.brand-mark {
+  width: 38px;
+  height: 38px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid var(--border-strong);
+  border-radius: 9px;
+
+  background: var(--panel);
+
+  font-size: 20px;
+}
+
+.brand-name {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+}
+
+.brand-subtitle {
+  margin-top: 2px;
+
+  color: var(--muted);
+
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.case-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  color: var(--muted);
+
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+  background: var(--green);
+
+  box-shadow:
+    0 0 0 4px var(--green-soft);
+}
 
 
-    <!-- DISCLAIMER -->
-    <section class="disclaimer">
+/* =========================================================
+   HERO
+========================================================= */
 
-      <strong>⚠️ A note on the visualization</strong>
+.hero {
+  min-height: 650px;
 
-      <p>
-        This interactive map is an exploratory visualization.
-        The hypothetical routes shown here are not intended to
-        represent confirmed routes taken by the animals.
-        Locations and distances are approximate.
-      </p>
+  display: flex;
+  align-items: center;
 
-    </section>
+  position: relative;
+  overflow: hidden;
+
+  border-bottom: 1px solid var(--border);
+
+  background:
+    radial-gradient(
+      circle at 72% 35%,
+      rgba(135, 169, 141, 0.11),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 20% 70%,
+      rgba(214, 179, 106, 0.06),
+      transparent 25%
+    );
+}
+
+.hero::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  opacity: 0.18;
+
+  background-image:
+    linear-gradient(
+      rgba(255,255,255,0.025) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,0.025) 1px,
+      transparent 1px
+    );
+
+  background-size: 70px 70px;
+
+  pointer-events: none;
+}
+
+.hero::after {
+  content: "";
+
+  position: absolute;
+
+  width: 600px;
+  height: 600px;
+
+  right: -240px;
+  bottom: -280px;
+
+  border: 1px solid rgba(214, 179, 106, 0.12);
+  border-radius: 50%;
+
+  box-shadow:
+    0 0 0 80px rgba(214,179,106,0.02),
+    0 0 0 160px rgba(214,179,106,0.015);
+
+  pointer-events: none;
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 2;
+
+  width: 100%;
+  max-width: var(--max-width);
+
+  margin: auto;
+  padding: 90px 28px;
+}
+
+.eyebrow {
+  margin-bottom: 22px;
+
+  color: var(--accent);
+
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+}
+
+.hero h1 {
+  max-width: 800px;
+
+  font-size:
+    clamp(58px, 9vw, 112px);
+
+  line-height: 0.94;
+
+  letter-spacing: -0.055em;
+
+  font-weight: 800;
+}
+
+.hero h1 span {
+  color: var(--accent);
+}
+
+.hero-description {
+  max-width: 650px;
+
+  margin-top: 30px;
+
+  color: var(--muted);
+
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.hero-meta {
+  margin-top: 48px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 24px;
+}
+
+.meta-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.meta-item strong {
+  color: var(--text);
+
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.meta-item span {
+  margin-top: 3px;
+
+  color: var(--faint);
+
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+}
+
+.meta-divider {
+  width: 1px;
+  height: 32px;
+
+  background: var(--border-strong);
+}
+
+.scroll-hint {
+  margin-top: 65px;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  color: var(--faint);
+
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.scroll-hint span {
+  color: var(--accent);
+
+  font-size: 17px;
+
+  animation: floatArrow 1.8s ease-in-out infinite;
+}
+
+@keyframes floatArrow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(5px);
+  }
+}
 
 
-    <!-- FOOTER -->
-    <footer>
+/* =========================================================
+   SECTIONS
+========================================================= */
 
-      <div>
-        🦧 <strong>The Odisha Orangutan Mystery</strong>
-      </div>
+.section {
+  padding: 110px 0;
 
-      <div>
-        Built as a data-visualization experiment
-      </div>
+  border-bottom: 1px solid var(--border);
+}
 
-    </footer>
+.section-inner {
+  width: 100%;
+  margin: auto;
 
-  </div>
+  padding-left: 28px;
+  padding-right: 28px;
+}
+
+.section-inner.wide {
+  max-width: var(--max-width);
+}
+
+.section-inner.narrow {
+  max-width: var(--narrow-width);
+}
+
+.section-label {
+  margin-bottom: 28px;
+
+  color: var(--accent);
+
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+}
+
+.section-label span {
+  margin-right: 10px;
+
+  color: var(--faint);
+}
+
+.section h2 {
+  max-width: 780px;
+
+  font-size:
+    clamp(38px, 5vw, 62px);
+
+  line-height: 1.02;
+
+  letter-spacing: -0.04em;
+}
+
+.section p {
+  color: var(--muted);
+}
+
+.section .lead {
+  margin-top: 28px;
+
+  color: var(--text);
+
+  font-size: 20px;
+  line-height: 1.65;
+}
+
+.section-heading-row {
+  margin-bottom: 35px;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.section-heading-row p {
+  margin-top: 14px;
+}
 
 
-  <!-- Leaflet -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+/* =========================================================
+   CASE INTRO
+========================================================= */
 
-  <!-- Our JavaScript -->
-  <script src="script.js"></script>
+.case-intro {
+  background: var(--bg-soft);
+}
 
-</body>
-</html>
+.case-intro .narrow > p:not(.lead) {
+  max-width: 700px;
+
+  margin-top: 20px;
+
+  font-size: 16px;
+}
+
+.fact-warning {
+  max-width: 700px;
+
+  margin-top: 38px;
+  padding: 20px;
+
+  display: flex;
+  gap: 16px;
+
+  border: 1px solid rgba(214, 179, 106, 0.2);
+  border-radius: var(--radius-small);
+
+  background: var(--accent-soft);
+}
+
+.warning-icon {
+  flex: 0 0 auto;
+
+  width: 30px;
+  height: 30px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid rgba(214, 179, 106, 0.35);
+  border-radius: 50%;
+
+  color: var(--accent);
+
+  font-weight: 800;
+}
+
+.fact-warning strong {
+  color: var(--accent);
+
+  font-size: 10px;
+  letter-spacing: 0.15em;
+}
+
+.fact-warning p {
+  margin-top: 5px;
+
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   MAP
+========================================================= */
+
+.map-section {
+  background: #0d1211;
+}
+
+.map-legend {
+  display: flex;
+  gap: 20px;
+
+  color: var(--faint);
+
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.map-legend div {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.legend-dot {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+}
+
+.legend-dot.origin {
+  background: var(--green);
+}
+
+.legend-dot.discovery {
+  background: var(--accent);
+}
+
+
+/* Route tabs */
+
+.route-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+
+  margin-bottom: 15px;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+
+  overflow: hidden;
+
+  background: var(--panel);
+}
+
+.route-tab {
+  min-height: 82px;
+
+  padding: 14px 17px;
+
+  display: flex;
+  align-items: center;
+  gap: 13px;
+
+  border: 0;
+  border-right: 1px solid var(--border);
+
+  background: transparent;
+
+  color: var(--muted);
+
+  text-align: left;
+
+  transition:
+    background 0.25s ease,
+    color 0.25s ease;
+}
+
+.route-tab:last-child {
+  border-right: 0;
+}
+
+.route-tab:hover {
+  background: rgba(255,255,255,0.035);
+}
+
+.route-tab.active {
+  background: var(--accent-soft);
+  color: var(--text);
+}
+
+.route-icon {
+  font-size: 21px;
+}
+
+.route-tab strong {
+  display: block;
+
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.route-tab small {
+  display: block;
+
+  margin-top: 3px;
+
+  color: var(--faint);
+
+  font-size: 9px;
+  line-height: 1.4;
+}
+
+.route-tab.active small {
+  color: var(--muted);
+}
+
+
+/* Map container */
+
+.map-wrapper {
+  position: relative;
+
+  height: 540px;
+
+  overflow: hidden;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+
+  background: #101615;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+}
+
+
+/* Leaflet overrides */
+
+.leaflet-container {
+  background: #101615;
+
+  font-family: inherit;
+}
+
+.leaflet-control-zoom {
+  border: 1px solid var(--border) !important;
+}
+
+.leaflet-control-zoom a {
+  background: #141b19 !important;
+  color: var(--muted) !important;
+
+  border-bottom-color: var(--border) !important;
+}
+
+.leaflet-control-attribution {
+  background: rgba(11,15,14,0.8) !important;
+
+  color: var(--faint) !important;
+
+  font-size: 8px !important;
+}
+
+.leaflet-control-attribution a {
+  color: var(--muted) !important;
+}
+
+
+/* Map overlay */
+
+.map-overlay {
+  position: absolute;
+  z-index: 500;
+
+  pointer-events: none;
+}
+
+.map-overlay.top-left {
+  top: 18px;
+  left: 18px;
+}
+
+.map-case-number {
+  color: var(--accent);
+
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+}
+
+.map-location {
+  margin-top: 4px;
+
+  color: var(--muted);
+
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.map-overlay.bottom-right {
+  right: 18px;
+  bottom: 18px;
+}
+
+.route-status {
+  padding: 9px 12px;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  border: 1px solid var(--border);
+  border-radius: 7px;
+
+  background: rgba(11,15,14,0.9);
+
+  color: var(--muted);
+
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+
+  backdrop-filter: blur(10px);
+}
+
+.route-status-dot {
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+
+/* Custom map markers */
+
+.case-marker {
+  width: 30px;
+  height: 30px;
+
+  display: grid;
+  place-items: center;
+
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+
+  background: #111714;
+
+  color: var(--accent);
+
+  font-size: 14px;
+
+  box-shadow:
+    0 0 0 5px rgba(214,179,106,0.12);
+}
+
+.origin-marker {
+  border-color: var(--green);
+
+  color: var(--green);
+
+  box-shadow:
+    0 0 0 5px rgba(135,169,141,0.12);
+}
+
+
+/* Route analysis */
+
+.route-analysis {
+  margin-top: 15px;
+
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+
+  background: var(--panel);
+
+  overflow: hidden;
+}
+
+.route-analysis-main,
+.route-analysis .analysis-verdict {
+  padding: 28px;
+}
+
+.route-analysis-main {
+  border-right: 1px solid var(--border);
+}
+
+.analysis-kicker,
+.verdict-label,
+.small-label {
+  color: var(--faint);
+
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+}
+
+.route-analysis h3 {
+  margin-top: 7px;
+
+  font-size: 25px;
+
+  letter-spacing: -0.025em;
+}
+
+.route-analysis-main p {
+  margin-top: 9px;
+
+  font-size: 14px;
+}
+
+.verdict-value {
+  margin-top: 7px;
+
+  color: var(--accent);
+
+  font-size: 19px;
+  font-weight: 800;
+}
+
+.analysis-verdict p {
+  margin-top: 7px;
+
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   EVIDENCE
+========================================================= */
+
+.evidence-section {
+  background: var(--bg-soft);
+}
+
+.evidence-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 13px;
+}
+
+.evidence-card {
+  min-height: 260px;
+
+  padding: 22px;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+
+  background: var(--panel);
+
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.evidence-card:hover {
+  transform: translateY(-4px);
+
+  border-color: var(--border-strong);
+}
+
+.evidence-card.confirmed {
+  border-top: 2px solid var(--green);
+}
+
+.evidence-card.mystery {
+  border-top: 2px solid var(--accent);
+}
+
+.evidence-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.evidence-number {
+  color: var(--faint);
+
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+}
+
+.evidence-tag {
+  padding: 4px 7px;
+
+  border-radius: 4px;
+
+  background: var(--green-soft);
+
+  color: var(--green);
+
+  font-size: 7px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+}
+
+.mystery .evidence-tag {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.evidence-icon {
+  margin-top: 30px;
+
+  font-size: 27px;
+}
+
+.evidence-card h3 {
+  margin-top: 13px;
+
+  font-size: 19px;
+
+  letter-spacing: -0.02em;
+}
+
+.evidence-card p {
+  margin-top: 8px;
+
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+
+/* =========================================================
+   AGE FORENSICS
+========================================================= */
+
+.forensics-section {
+  background: var(--bg);
+}
+
+.timeline {
+  position: relative;
+
+  margin-top: 65px;
+  padding-bottom: 10px;
+}
+
+.timeline-line {
+  position: absolute;
+
+  top: 10px;
+  left: 10px;
+
+  width: 1px;
+  height: calc(100% - 20px);
+
+  background: var(--border-strong);
+}
+
+.timeline-item {
+  position: relative;
+
+  padding-left: 48px;
+
+  margin-bottom: 55px;
+}
+
+.timeline-dot {
+  position: absolute;
+
+  top: 5px;
+  left: 4px;
+
+  width: 13px;
+  height: 13px;
+
+  border: 2px solid var(--faint);
+  border-radius: 50%;
+
+  background: var(--bg);
+}
+
+.timeline-dot.active {
+  border-color: var(--accent);
+
+  background: var(--accent);
+
+  box-shadow:
+    0 0 0 5px var(--accent-soft);
+}
+
+.timeline-age {
+  color: var(--accent);
+
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+}
+
+.timeline-item h3 {
+  margin-top: 6px;
+
+  font-size: 23px;
+}
+
+.timeline-item p {
+  max-width: 570px;
+
+  margin-top: 7px;
+
+  font-size: 14px;
+}
+
+.forensics-conclusion {
+  margin-top: 30px;
+  padding: 25px;
+
+  display: flex;
+  gap: 18px;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+
+  background: var(--panel);
+}
+
+.forensics-icon {
+  flex: 0 0 auto;
+
+  width: 42px;
+  height: 42px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 10px;
+
+  background: var(--accent-soft);
+
+  font-size: 20px;
+}
+
+.forensics-conclusion h3 {
+  margin-top: 5px;
+
+  font-size: 20px;
+}
+
+.forensics-conclusion p {
+  margin-top: 5px;
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   MOTHERS
+========================================================= */
+
+.mothers-section {
+  background: var(--bg-soft);
+}
+
+.mother-layout {
+  margin-top: 45px;
+
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+
+  overflow: hidden;
+
+  background: var(--panel);
+}
+
+.mother-question {
+  padding: 45px;
+
+  border-right: 1px solid var(--border);
+
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(214,179,106,0.07),
+      transparent 40%
+    );
+}
+
+.question-mark {
+  color: var(--accent);
+
+  font-size: 70px;
+  font-weight: 200;
+  line-height: 1;
+}
+
+.mother-question h2 {
+  margin-top: 12px;
+
+  font-size: 36px;
+}
+
+.mother-question p {
+  margin-top: 15px;
+
+  font-size: 14px;
+}
+
+.reveal-button {
+  margin-top: 30px;
+  padding: 12px 14px;
+
+  border: 1px solid var(--border-strong);
+  border-radius: 7px;
+
+  background: transparent;
+
+  color: var(--text);
+
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.reveal-button:hover {
+  background: var(--accent-soft);
+
+  border-color: rgba(214,179,106,0.4);
+}
+
+.reveal-button span {
+  margin-left: 8px;
+
+  color: var(--accent);
+}
+
+.mother-reveal {
+  padding: 45px;
+}
+
+.reveal-header {
+  padding-bottom: 18px;
+
+  border-bottom: 1px solid var(--border);
+
+  color: var(--accent);
+
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+}
+
+.reveal-icon {
+  margin-right: 8px;
+}
+
+.reveal-list {
+  margin-top: 12px;
+}
+
+.reveal-list > div {
+  padding: 18px 0;
+
+  display: flex;
+  gap: 15px;
+
+  border-bottom: 1px solid var(--border);
+}
+
+.reveal-list > div:last-child {
+  border-bottom: 0;
+}
+
+.reveal-list span {
+  color: var(--faint);
+
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.reveal-list p {
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   INVESTIGATION
+========================================================= */
+
+.investigation-section {
+  background: var(--bg);
+}
+
+.section-description {
+  margin-top: 15px;
+
+  font-size: 14px;
+}
+
+.investigation-grid {
+  margin-top: 45px;
+
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 10px;
+}
+
+.investigation-item {
+  position: relative;
+
+  padding: 20px;
+
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-small);
+
+  background: var(--panel);
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.investigation-item:hover {
+  border-color: var(--border-strong);
+}
+
+.investigation-item input {
+  position: absolute;
+
+  opacity: 0;
+
+  pointer-events: none;
+}
+
+.check-box {
+  flex: 0 0 auto;
+
+  width: 20px;
+  height: 20px;
+
+  border: 1px solid var(--faint);
+  border-radius: 5px;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.investigation-item input:checked + .check-box {
+  border-color: var(--green);
+
+  background: var(--green);
+
+  box-shadow:
+    inset 0 0 0 4px var(--panel);
+}
+
+.investigation-item strong {
+  display: block;
+
+  font-size: 13px;
+}
+
+.investigation-item span {
+  display: block;
+
+  margin-top: 3px;
+
+  color: var(--faint);
+
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   BLACK SUV CLUE
+========================================================= */
+
+.clue-section {
+  background: var(--bg-soft);
+}
+
+.clue-card {
+  border: 1px solid rgba(215,121,103,0.2);
+  border-radius: var(--radius);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(215,121,103,0.055),
+      transparent 55%
+    ),
+    var(--panel);
+
+  overflow: hidden;
+}
+
+.clue-card-header {
+  padding: 28px;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  border-bottom: 1px solid var(--border);
+}
+
+.clue-label {
+  color: var(--red);
+
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+}
+
+.clue-card h2 {
+  margin-top: 5px;
+
+  font-size: 36px;
+}
+
+.clue-badge {
+  padding: 6px 8px;
+
+  border: 1px solid rgba(215,121,103,0.25);
+  border-radius: 5px;
+
+  background: var(--red-soft);
+
+  color: var(--red);
+
+  font-size: 7px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+
+.clue-card-body {
+  padding: 30px;
+
+  display: grid;
+  grid-template-columns: 100px 1fr;
+
+  gap: 20px;
+}
+
+.clue-big-icon {
+  width: 80px;
+  height: 80px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid var(--border);
+  border-radius: 12px;
+
+  background: #101514;
+
+  font-size: 36px;
+}
+
+.clue-lead {
+  color: var(--text) !important;
+
+  font-size: 18px !important;
+  line-height: 1.5;
+}
+
+.clue-card-body p:not(.clue-lead) {
+  margin-top: 12px;
+
+  font-size: 13px;
+}
+
+.clue-rule {
+  margin-top: 20px;
+  padding-top: 15px;
+
+  border-top: 1px solid var(--border);
+
+  color: var(--muted);
+
+  font-size: 11px;
+}
+
+.clue-rule span {
+  margin-right: 8px;
+
+  color: var(--red);
+
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+}
+
+
+/* =========================================================
+   THEORY
+========================================================= */
+
+.theory-section {
+  background: var(--bg);
+}
+
+.theory-options {
+  margin-top: 40px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.theory-option {
+  width: 100%;
+
+  padding: 20px;
+
+  display: grid;
+  grid-template-columns: 38px 1fr 20px;
+
+  align-items: center;
+
+  gap: 15px;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-small);
+
+  background: var(--panel);
+
+  color: var(--text);
+
+  text-align: left;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.theory-option:hover {
+  transform: translateX(4px);
+
+  border-color: rgba(214,179,106,0.3);
+
+  background: var(--accent-soft);
+}
+
+.theory-number {
+  width: 32px;
+  height: 32px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid var(--border-strong);
+  border-radius: 50%;
+
+  color: var(--accent);
+
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.theory-option strong {
+  display: block;
+
+  font-size: 14px;
+}
+
+.theory-option small {
+  display: block;
+
+  margin-top: 3px;
+
+  color: var(--faint);
+
+  font-size: 11px;
+}
+
+.theory-arrow {
+  color: var(--accent);
+
+  font-size: 18px;
+}
+
+.theory-result {
+  margin-top: 20px;
+  padding: 22px;
+
+  display: none;
+
+  gap: 15px;
+
+  border: 1px solid rgba(135,169,141,0.25);
+  border-radius: var(--radius-small);
+
+  background: var(--green-soft);
+}
+
+.theory-result.visible {
+  display: flex;
+
+  animation: resultIn 0.35s ease;
+}
+
+@keyframes resultIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.result-icon {
+  font-size: 25px;
+}
+
+.theory-result h3 {
+  margin-top: 3px;
+
+  font-size: 18px;
+}
+
+.theory-result p {
+  margin-top: 4px;
+
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.status-section {
+  background: var(--bg-soft);
+}
+
+.status-card {
+  margin-top: 35px;
+  padding: 30px;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+
+  background: var(--panel);
+}
+
+.status-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.status-card h2 {
+  margin-top: 4px;
+
+  font-size: 38px;
+}
+
+.live-badge {
+  padding: 7px 9px;
+
+  border-radius: 5px;
+
+  background: var(--green-soft);
+
+  color: var(--green);
+
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+}
+
+.status-card > p {
+  max-width: 700px;
+
+  margin-top: 18px;
+
+  font-size: 14px;
+}
+
+.status-note {
+  margin-top: 25px;
+  padding-top: 20px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  border-top: 1px solid var(--border);
+}
+
+.status-note strong {
+  color: var(--accent);
+
+  font-size: 10px;
+  letter-spacing: 0.1em;
+}
+
+.status-note span {
+  color: var(--text);
+
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   SOURCES
+========================================================= */
+
+.sources-section {
+  background: var(--bg);
+}
+
+.sources-section > .narrow > p {
+  margin-top: 18px;
+
+  font-size: 14px;
+}
+
+.sources-list {
+  margin-top: 30px;
+
+  border-top: 1px solid var(--border);
+}
+
+.sources-list a {
+  padding: 17px 0;
+
+  display: grid;
+  grid-template-columns: 145px 1fr 20px;
+
+  align-items: center;
+
+  gap: 15px;
+
+  border-bottom: 1px solid var(--border);
+
+  transition: padding 0.2s ease;
+}
+
+.sources-list a:hover {
+  padding-left: 5px;
+}
+
+.sources-list a span:first-child {
+  color: var(--accent);
+
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+}
+
+.sources-list strong {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.sources-list span:last-child {
+  color: var(--faint);
+}
+
+.methodology-note {
+  margin-top: 28px !important;
+  padding: 17px;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-small);
+
+  background: var(--panel);
+
+  font-size: 11px !important;
+}
+
+.methodology-note strong {
+  color: var(--accent);
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.site-footer {
+  border-top: 1px solid var(--border);
+
+  background: #080b0a;
+}
+
+.footer-inner {
+  max-width: var(--max-width);
+
+  margin: auto;
+  padding: 25px 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.footer-inner strong {
+  display: block;
+
+  font-size: 9px;
+  letter-spacing: 0.12em;
+}
+
+.footer-inner span {
+  display: block;
+
+  margin-top: 3px;
+
+  color: var(--faint);
+
+  font-size: 9px;
+}
+
+.footer-right {
+  color: var(--faint);
+
+  font-size: 9px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .hero {
+    min-height: 590px;
+  }
+
+  .hero-meta {
+    gap: 15px;
+  }
+
+  .evidence-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .route-tabs {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .route-tab:nth-child(2) {
+    border-right: 0;
+  }
+
+  .route-tab:nth-child(-n+2) {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .route-analysis {
+    grid-template-columns: 1fr;
+  }
+
+  .route-analysis-main {
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .mother-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .mother-question {
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+}
+
+
+@media (max-width: 650px) {
+
+  .header-inner {
+    padding: 15px 18px;
+  }
+
+  .case-status {
+    display: none;
+  }
+
+  .hero-inner {
+    padding: 75px 20px;
+  }
+
+  .hero h1 {
+    font-size: 58px;
+  }
+
+  .hero-description {
+    font-size: 16px;
+  }
+
+  .hero-meta {
+    flex-wrap: wrap;
+
+    gap: 15px;
+  }
+
+  .meta-divider {
+    display: none;
+  }
+
+  .section {
+    padding: 75px 0;
+  }
+
+  .section-inner {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .section h2 {
+    font-size: 42px;
+  }
+
+  .section-heading-row {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .map-legend {
+    margin-top: 5px;
+  }
+
+  .route-tabs {
+    grid-template-columns: 1fr;
+  }
+
+  .route-tab {
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .route-tab:last-child {
+    border-bottom: 0;
+  }
+
+  .map-wrapper {
+    height: 430px;
+  }
+
+  .evidence-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .evidence-card {
+    min-height: 220px;
+  }
+
+  .mother-question,
+  .mother-reveal {
+    padding: 30px 24px;
+  }
+
+  .investigation-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .clue-card-header {
+    padding: 24px;
+
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .clue-card-body {
+    padding: 24px;
+
+    grid-template-columns: 1fr;
+  }
+
+  .clue-big-icon {
+    width: 60px;
+    height: 60px;
+
+    font-size: 28px;
+  }
+
+  .theory-option {
+    grid-template-columns: 32px 1fr 15px;
+
+    padding: 16px;
+  }
+
+  .status-card {
+    padding: 24px;
+  }
+
+  .status-card-top {
+    flex-direction: column;
+  }
+
+  .sources-list a {
+    grid-template-columns: 1fr 20px;
+  }
+
+  .sources-list a span:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .footer-inner {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .footer-right {
+    display: none;
+  }
+
+}
