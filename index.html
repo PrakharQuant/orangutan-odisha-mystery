@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>🦧 The Odisha Orangutan Mystery</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Leaflet -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
+</head>
+
+<body>
+
+  <div class="page">
+
+    <!-- HEADER -->
+    <header class="hero">
+      <div class="eyebrow">WILDLIFE MYSTERY • INDIA • SEPTEMBER 2026</div>
+
+      <h1>🦧 Five Baby Orangutans<br>in Odisha?</h1>
+
+      <p class="subtitle">
+        Thousands of kilometres from their natural range.
+        So how could they have ended up here?
+      </p>
+
+      <div class="distance-pill">
+        🌏 ~3,000+ km from their natural range
+      </div>
+    </header>
+
+
+    <!-- MAP -->
+    <section class="map-section">
+
+      <div class="section-label">
+        <span>THE MAP</span>
+        <span class="hint">Click a location</span>
+      </div>
+
+      <div id="map"></div>
+
+      <div class="legend">
+        <div>
+          <span class="legend-dot orange"></span>
+          Reported / known location
+        </div>
+
+        <div>
+          <span class="legend-dot grey"></span>
+          Natural range
+        </div>
+
+        <div>
+          <span class="legend-line"></span>
+          Illustrative hypothesis
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- CONTROLS -->
+    <section class="controls-section">
+
+      <div class="section-label">
+        <span>EXPLORE THE HYPOTHESES</span>
+      </div>
+
+      <div class="buttons">
+
+        <button id="naturalBtn" class="control-btn active">
+          🌿 Natural dispersal
+        </button>
+
+        <button id="humanBtn" class="control-btn">
+          🚢 Possible human route
+        </button>
+
+        <button id="resetBtn" class="control-btn reset">
+          ↺ Reset
+        </button>
+
+      </div>
+
+      <div id="info" class="info-card">
+        <div class="info-icon">🧭</div>
+
+        <div>
+          <h3>What are we looking at?</h3>
+
+          <p>
+            Select an option above to explore possible explanations.
+            The routes are <strong>illustrative hypotheses</strong>,
+            not confirmed movements of these animals.
+          </p>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- FACTS -->
+    <section class="facts">
+
+      <div class="section-label">
+        <span>THE MYSTERY</span>
+      </div>
+
+      <div class="fact-grid">
+
+        <div class="fact">
+          <div class="fact-number">01</div>
+          <h3>Natural home</h3>
+          <p>
+            Orangutans are naturally found in Southeast Asia,
+            primarily on the islands of Borneo and Sumatra.
+          </p>
+        </div>
+
+        <div class="fact">
+          <div class="fact-number">02</div>
+          <h3>Odisha</h3>
+          <p>
+            Odisha lies far outside the species' natural
+            geographic range.
+          </p>
+        </div>
+
+        <div class="fact">
+          <div class="fact-number">03</div>
+          <h3>Five infants</h3>
+          <p>
+            The reported discovery of multiple young animals
+            together makes the story particularly unusual.
+          </p>
+        </div>
+
+        <div class="fact">
+          <div class="fact-number">04</div>
+          <h3>The question</h3>
+          <p>
+            If they did not arrive naturally, what human-mediated
+            pathway could explain their presence?
+          </p>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- DISCLAIMER -->
+    <section class="disclaimer">
+
+      <strong>⚠️ A note on the visualization</strong>
+
+      <p>
+        This interactive map is an exploratory visualization.
+        The hypothetical routes shown here are not intended to
+        represent confirmed routes taken by the animals.
+        Locations and distances are approximate.
+      </p>
+
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer>
+
+      <div>
+        🦧 <strong>The Odisha Orangutan Mystery</strong>
+      </div>
+
+      <div>
+        Built as a data-visualization experiment
+      </div>
+
+    </footer>
+
+  </div>
+
+
+  <!-- Leaflet -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Our JavaScript -->
+  <script src="script.js"></script>
+
+</body>
+</html>
