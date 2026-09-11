@@ -2149,3 +2149,167 @@ a {
   }
 
 }
+/* =========================================================
+   ORANGUTAN HERO IMAGE
+   Uses the uploaded poster as a cropped visual layer.
+========================================================= */
+
+.hero-inner {
+  position: relative;
+  overflow: visible;
+}
+
+
+/* Cropped orangutan image */
+
+.hero-inner::before {
+  content: "";
+
+  position: absolute;
+
+  z-index: 0;
+
+  top: -90px;
+  right: -120px;
+
+  width: 680px;
+  height: 650px;
+
+  background-image:
+    linear-gradient(
+      90deg,
+      var(--bg) 0%,
+      rgba(11, 15, 14, 0.82) 8%,
+      rgba(11, 15, 14, 0.18) 35%,
+      transparent 65%
+    ),
+    url("orangutans-hero.png");
+
+  background-size:
+    100% 100%,
+    auto 100%;
+
+  background-position:
+    center,
+    right center;
+
+  background-repeat: no-repeat;
+
+  opacity: 0.82;
+
+  pointer-events: none;
+
+  animation:
+    heroOrangutans 14s ease-in-out infinite alternate;
+}
+
+
+/* Additional dark fade at the bottom */
+
+.hero-inner::after {
+  content: "";
+
+  position: absolute;
+
+  z-index: 1;
+
+  right: -120px;
+  bottom: -90px;
+
+  width: 700px;
+  height: 250px;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      to bottom,
+      transparent,
+      var(--bg)
+    );
+}
+
+
+/* Keep all actual text above the image */
+
+.hero-inner > * {
+  position: relative;
+  z-index: 3;
+}
+
+
+/* Gentle cinematic movement */
+
+@keyframes heroOrangutans {
+
+  0% {
+    transform:
+      scale(1)
+      translate3d(0, 0, 0);
+  }
+
+  100% {
+    transform:
+      scale(1.035)
+      translate3d(-8px, -4px, 0);
+  }
+
+}
+
+
+/* =========================================================
+   DESKTOP HERO BALANCE
+========================================================= */
+
+@media (min-width: 901px) {
+
+  .hero-inner {
+    padding-right: 390px;
+  }
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .hero-inner::before {
+    right: -180px;
+
+    width: 620px;
+    height: 580px;
+
+    opacity: 0.42;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+
+  .hero-inner {
+    padding-right: 20px;
+  }
+
+  .hero-inner::before {
+    top: 100px;
+    right: -240px;
+
+    width: 600px;
+    height: 430px;
+
+    opacity: 0.20;
+  }
+
+  .hero-inner::after {
+    right: -240px;
+  }
+
+}
