@@ -177,144 +177,98 @@ a {
 
 .hero {
   min-height: 650px;
-
   display: flex;
   align-items: center;
-
   position: relative;
   overflow: hidden;
-
   border-bottom: 1px solid var(--border);
 
   background:
-    radial-gradient(
-      circle at 72% 35%,
-      rgba(135, 169, 141, 0.11),
-      transparent 28%
-    ),
-    radial-gradient(
-      circle at 20% 70%,
-      rgba(214, 179, 106, 0.06),
-      transparent 25%
-    );
+    radial-gradient(circle at 72% 35%, rgba(135,169,141,0.11), transparent 28%),
+    radial-gradient(circle at 20% 70%, rgba(214,179,106,0.06), transparent 25%);
 }
+
+
+/* =========================================================
+   ORANGUTAN VISUAL
+========================================================= */
 
 .hero::before {
   content: "";
-
   position: absolute;
   z-index: 1;
-
   top: 0;
   right: 0;
-
-  width: 58%;
+  width: 52%;
   height: 100%;
-
-  pointer-events: none;
 
   background-image:
     linear-gradient(
       90deg,
       var(--bg) 0%,
-      rgba(11, 15, 14, 0.90) 12%,
-      rgba(11, 15, 14, 0.28) 48%,
-      transparent 82%
+      rgba(11,15,14,0.96) 8%,
+      rgba(11,15,14,0.58) 32%,
+      rgba(11,15,14,0.16) 68%,
+      transparent 100%
     ),
-    url("orangutans-hero.png");
+    url("orangutans-visual.png");
 
   background-repeat: no-repeat;
-
-  /*
-    The uploaded image is a full poster.
-    Enlarging it vertically crops away most of
-    the embedded headline and keeps the jungle
-    / orangutan group on the right.
-  */
-  background-size:
-    100% 100%,
-    auto 160%;
-
-  background-position:
-    center,
-    right center;
+  background-size: 100% 100%, cover;
+  background-position: center, center;
 
   opacity: 0.78;
-
-  mask-image:
-    linear-gradient(
-      to right,
-      transparent 0%,
-      black 12%,
-      black 100%
-    );
+  pointer-events: none;
 
   animation: orangutanHeroDrift 18s ease-in-out infinite alternate;
 }
 
 .hero::after {
   content: "";
-
   position: absolute;
-  z-index: 1;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 150px;
 
-  width: 600px;
-  height: 600px;
-
-  right: -240px;
-  bottom: -280px;
-
-  border: 1px solid rgba(214, 179, 106, 0.12);
-  border-radius: 50%;
-
-  box-shadow:
-    0 0 0 80px rgba(214,179,106,0.02),
-    0 0 0 160px rgba(214,179,106,0.015);
+  background: linear-gradient(to bottom, transparent, var(--bg));
 
   pointer-events: none;
 }
 
 @keyframes orangutanHeroDrift {
-  0% {
-    transform: scale(1);
-  }
-
-  100% {
-    transform: scale(1.035);
-  }
+  0%   { transform: scale(1); }
+  100% { transform: scale(1.035); }
 }
+
+
+/* =========================================================
+   HERO CONTENT
+========================================================= */
 
 .hero-inner {
   position: relative;
-  z-index: 2;
-
+  z-index: 3;
   width: 100%;
   max-width: var(--max-width);
-
   margin: auto;
   padding: 90px 28px;
 }
 
 .eyebrow {
   margin-bottom: 22px;
-
   color: var(--accent);
-
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.2em;
 }
 
 .hero h1 {
-  max-width: 800px;
-
-  font-size:
-    clamp(58px, 9vw, 112px);
-
+  max-width: 760px;
+  font-size: clamp(58px, 8vw, 104px);
   line-height: 0.94;
-
   letter-spacing: -0.055em;
-
   font-weight: 800;
 }
 
@@ -324,21 +278,16 @@ a {
 
 .hero-description {
   max-width: 650px;
-
   margin-top: 30px;
-
   color: var(--muted);
-
   font-size: 18px;
   line-height: 1.7;
 }
 
 .hero-meta {
   margin-top: 48px;
-
   display: flex;
   align-items: center;
-
   gap: 24px;
 }
 
@@ -349,16 +298,13 @@ a {
 
 .meta-item strong {
   color: var(--text);
-
   font-size: 17px;
   font-weight: 700;
 }
 
 .meta-item span {
   margin-top: 3px;
-
   color: var(--faint);
-
   font-size: 9px;
   font-weight: 800;
   letter-spacing: 0.13em;
@@ -367,19 +313,15 @@ a {
 .meta-divider {
   width: 1px;
   height: 32px;
-
   background: var(--border-strong);
 }
 
 .scroll-hint {
   margin-top: 65px;
-
   display: flex;
   align-items: center;
   gap: 10px;
-
   color: var(--faint);
-
   font-size: 9px;
   font-weight: 800;
   letter-spacing: 0.16em;
@@ -387,22 +329,78 @@ a {
 
 .scroll-hint span {
   color: var(--accent);
-
   font-size: 17px;
-
   animation: floatArrow 1.8s ease-in-out infinite;
 }
 
 @keyframes floatArrow {
-  0%, 100% {
-    transform: translateY(0);
-  }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(5px); }
+}
 
-  50% {
-    transform: translateY(5px);
+
+/* =========================================================
+   HERO RESPONSIVE
+========================================================= */
+
+@media (min-width: 901px) {
+  .hero-inner {
+    padding-right: 360px;
   }
 }
 
+@media (max-width: 900px) {
+  .hero {
+    min-height: 590px;
+  }
+
+  .hero::before {
+    width: 60%;
+    opacity: 0.40;
+  }
+
+  .hero-meta {
+    gap: 15px;
+  }
+}
+
+@media (max-width: 650px) {
+  .hero {
+    min-height: 680px;
+  }
+
+  .hero-inner {
+    padding: 75px 20px;
+  }
+
+  .hero::before {
+    top: 240px;
+    right: -15%;
+    width: 115%;
+    height: 440px;
+    opacity: 0.22;
+
+    background-size: 100% 100%, cover;
+    background-position: center, center;
+  }
+
+  .hero h1 {
+    font-size: 58px;
+  }
+
+  .hero-description {
+    font-size: 16px;
+  }
+
+  .hero-meta {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  .meta-divider {
+    display: none;
+  }
+}
 
 /* =========================================================
    SECTIONS
@@ -672,7 +670,10 @@ a {
 .map-wrapper {
   position: relative;
 
-  height: 540px;
+  height: 420px;
+
+  border-radius: var(--radius);
+  isolation: isolate;
 
   overflow: hidden;
 
@@ -685,6 +686,7 @@ a {
 #map {
   width: 100%;
   height: 100%;
+  image-rendering: auto;
 }
 
 
@@ -1917,7 +1919,7 @@ a {
   }
 
   .map-wrapper {
-    height: 430px;
+    height: 360px;
   }
 
   .evidence-grid {
@@ -1988,47 +1990,3 @@ a {
   .footer-right {
     display: none;
   }
-
-
-/* =========================================================
-   ORANGUTAN HERO — RESPONSIVE IMAGE TUNING
-========================================================= */
-
-@media (max-width: 900px) {
-  .hero::before {
-    width: 62%;
-    opacity: 0.48;
-
-    background-size:
-      100% 100%,
-      auto 145%;
-  }
-}
-
-@media (max-width: 650px) {
-  .hero::before {
-    top: 250px;
-    right: -8%;
-
-    width: 108%;
-    height: 430px;
-
-    opacity: 0.22;
-
-    background-size:
-      100% 100%,
-      auto 125%;
-
-    background-position:
-      center,
-      right center;
-
-    mask-image:
-      linear-gradient(
-        to right,
-        transparent 0%,
-        black 18%,
-        black 100%
-      );
-  }
-}
