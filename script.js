@@ -936,10 +936,21 @@ function startNewsTicker() {
 
   if (!items.length) return;
 
-  // Duplicate the news items so the horizontal ticker loops continuously.
   items.forEach((item) => {
     track.appendChild(item.cloneNode(true));
   });
+
+  track.animate(
+    [
+      { transform: "translateX(0)" },
+      { transform: "translateX(-50%)" }
+    ],
+    {
+      duration: 45000,
+      iterations: Infinity,
+      easing: "linear"
+    }
+  );
 }
 
 
