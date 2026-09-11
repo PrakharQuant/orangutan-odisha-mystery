@@ -367,13 +367,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ).addTo(map);
 
 
-    /* -------------------------------------------------------
-       Bring markers to front
-    ------------------------------------------------------- */
-
-    originMarker.bringToFront();
-    discoveryMarker.bringToFront();
-    zooMarker.bringToFront();
+   
 
 
     /* -------------------------------------------------------
