@@ -1,199 +1,1503 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>🦧 The Odisha Orangutan Mystery</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="stylesheet" href="style.css">
+<title>🦧 The Odisha Orangutan Mystery</title>
 
-  <!-- Leaflet -->
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-  />
+<!-- Leaflet CSS -->
+<link
+rel="stylesheet"
+href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+/>
+
+<style>
+
+/* ================================
+   GLOBAL
+================================ */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: #080c11;
+  color: #f8fafc;
+
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+}
+
+.page {
+  max-width: 1200px;
+  margin: auto;
+}
+
+
+/* ================================
+   HERO
+================================ */
+
+.hero {
+
+  padding: 60px 20px 45px;
+
+  text-align: center;
+
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(249,115,22,.18),
+      transparent 45%
+    );
+}
+
+.eyebrow {
+
+  margin-bottom: 18px;
+
+  color: #fb923c;
+
+  font-size: 11px;
+  font-weight: 800;
+
+  letter-spacing: 2px;
+}
+
+.hero h1 {
+
+  margin: 0;
+
+  font-size:
+    clamp(40px, 7vw, 76px);
+
+  line-height: .95;
+
+  letter-spacing: -3px;
+
+  font-weight: 850;
+}
+
+.subtitle {
+
+  max-width: 650px;
+
+  margin: 25px auto 0;
+
+  color: #9aa7b8;
+
+  font-size: 18px;
+
+  line-height: 1.55;
+}
+
+.distance {
+
+  display: inline-block;
+
+  margin-top: 24px;
+
+  padding: 9px 17px;
+
+  border: 1px solid #334155;
+
+  border-radius: 999px;
+
+  color: #cbd5e1;
+
+  background: #111821;
+
+  font-size: 13px;
+}
+
+
+/* ================================
+   SECTIONS
+================================ */
+
+.section {
+
+  padding: 25px 16px;
+}
+
+.section-title {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 10px;
+
+  color: #64748b;
+
+  font-size: 11px;
+
+  font-weight: 800;
+
+  letter-spacing: 1.7px;
+}
+
+
+/* ================================
+   MAP
+================================ */
+
+#map {
+
+  width: 100%;
+
+  height: 570px;
+
+  border:
+    1px solid #263241;
+
+  border-radius: 18px;
+
+  overflow: hidden;
+
+  background: #111827;
+}
+
+.leaflet-container {
+
+  background: #111827;
+
+  font-family: inherit;
+}
+
+.leaflet-control-zoom a {
+
+  background: #111827 !important;
+
+  color: white !important;
+
+  border-color: #334155 !important;
+}
+
+.leaflet-control-attribution {
+
+  background:
+    rgba(8,12,17,.85) !important;
+
+  color: #64748b !important;
+}
+
+.leaflet-control-attribution a {
+
+  color: #94a3b8 !important;
+}
+
+
+/* ================================
+   LEGEND
+================================ */
+
+.legend {
+
+  display: flex;
+
+  justify-content: center;
+
+  flex-wrap: wrap;
+
+  gap: 20px;
+
+  padding: 14px;
+
+  color: #94a3b8;
+
+  font-size: 12px;
+}
+
+.legend-item {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+}
+
+.dot {
+
+  width: 9px;
+  height: 9px;
+
+  border-radius: 50%;
+}
+
+.orange {
+  background: #f97316;
+}
+
+.grey {
+  background: #94a3b8;
+}
+
+.line {
+
+  width: 20px;
+  height: 2px;
+
+  background: #fb923c;
+}
+
+
+/* ================================
+   BUTTONS
+================================ */
+
+.buttons {
+
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 9px;
+}
+
+button {
+
+  border:
+    1px solid #334155;
+
+  padding:
+    11px 17px;
+
+  border-radius: 9px;
+
+  background: #151d28;
+
+  color: #cbd5e1;
+
+  cursor: pointer;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  transition: .2s;
+}
+
+button:hover {
+
+  background: #1e293b;
+
+  transform:
+    translateY(-1px);
+}
+
+button.active {
+
+  background: #f97316;
+
+  border-color: #f97316;
+
+  color: #111827;
+}
+
+
+/* ================================
+   INFO
+================================ */
+
+.info {
+
+  display: flex;
+
+  gap: 15px;
+
+  margin-top: 15px;
+
+  padding: 18px;
+
+  border:
+    1px solid #263241;
+
+  border-radius: 14px;
+
+  background: #0f151d;
+}
+
+.info-icon {
+
+  width: 40px;
+  height: 40px;
+
+  flex-shrink: 0;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+
+  background: #1e293b;
+
+  font-size: 19px;
+}
+
+.info h3 {
+
+  margin:
+    0 0 6px;
+
+  font-size: 15px;
+}
+
+.info p {
+
+  margin: 0;
+
+  color: #94a3b8;
+
+  font-size: 13px;
+
+  line-height: 1.6;
+}
+
+
+/* ================================
+   FACTS
+================================ */
+
+.facts {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(4,1fr);
+
+  gap: 10px;
+}
+
+.fact {
+
+  padding: 20px;
+
+  border:
+    1px solid #263241;
+
+  border-radius: 14px;
+
+  background: #0f151d;
+}
+
+.fact-number {
+
+  color: #f97316;
+
+  font-size: 11px;
+
+  font-weight: 900;
+
+  letter-spacing: 1px;
+}
+
+.fact h3 {
+
+  margin:
+    12px 0 7px;
+
+  font-size: 16px;
+}
+
+.fact p {
+
+  margin: 0;
+
+  color: #8c99aa;
+
+  font-size: 13px;
+
+  line-height: 1.6;
+}
+
+
+/* ================================
+   DISCLAIMER
+================================ */
+
+.disclaimer {
+
+  margin:
+    30px 16px;
+
+  padding: 18px;
+
+  border-left:
+    3px solid #f97316;
+
+  background: #111821;
+
+  color: #94a3b8;
+
+  font-size: 12px;
+
+  line-height: 1.6;
+}
+
+.disclaimer strong {
+
+  color: #cbd5e1;
+}
+
+
+/* ================================
+   FOOTER
+================================ */
+
+footer {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  padding:
+    25px 20px;
+
+  margin-top: 35px;
+
+  border-top:
+    1px solid #1e293b;
+
+  color: #64748b;
+
+  font-size: 11px;
+}
+
+
+/* ================================
+   MARKERS
+================================ */
+
+.marker {
+
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border:
+    2px solid white;
+
+  border-radius: 50%;
+
+  background: #f97316;
+
+  box-shadow:
+    0 0 0 5px rgba(249,115,22,.22),
+    0 5px 15px rgba(0,0,0,.4);
+
+  font-size: 18px;
+}
+
+.home {
+
+  width: 27px;
+  height: 27px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border:
+    2px solid #cbd5e1;
+
+  border-radius: 50%;
+
+  background: #475569;
+
+  font-size: 13px;
+}
+
+
+/* ================================
+   MOBILE
+================================ */
+
+@media(max-width:800px){
+
+  #map {
+    height: 470px;
+  }
+
+  .facts {
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
+}
+
+@media(max-width:520px){
+
+  .hero {
+    padding-top: 40px;
+  }
+
+  .hero h1 {
+    font-size: 41px;
+    letter-spacing: -2px;
+  }
+
+  #map {
+    height: 420px;
+    border-radius: 14px;
+  }
+
+  .facts {
+    grid-template-columns: 1fr;
+  }
+
+  .buttons {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  button {
+    width: 100%;
+  }
+
+  footer {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+}
+
+</style>
+
 </head>
+
 
 <body>
 
-  <div class="page">
-
-    <!-- HEADER -->
-    <header class="hero">
-      <div class="eyebrow">WILDLIFE MYSTERY • INDIA • SEPTEMBER 2026</div>
-
-      <h1>🦧 Five Baby Orangutans<br>in Odisha?</h1>
-
-      <p class="subtitle">
-        Thousands of kilometres from their natural range.
-        So how could they have ended up here?
-      </p>
-
-      <div class="distance-pill">
-        🌏 ~3,000+ km from their natural range
-      </div>
-    </header>
+<div class="page">
 
 
-    <!-- MAP -->
-    <section class="map-section">
+<!-- =====================================
+     HERO
+===================================== -->
 
-      <div class="section-label">
-        <span>THE MAP</span>
-        <span class="hint">Click a location</span>
-      </div>
+<header class="hero">
 
-      <div id="map"></div>
+  <div class="eyebrow">
+    WILDLIFE MYSTERY • INDIA • SEPTEMBER 2026
+  </div>
 
-      <div class="legend">
-        <div>
-          <span class="legend-dot orange"></span>
-          Reported / known location
-        </div>
+  <h1>
+    🦧 Five Baby Orangutans<br>
+    in Odisha?
+  </h1>
 
-        <div>
-          <span class="legend-dot grey"></span>
-          Natural range
-        </div>
+  <p class="subtitle">
 
-        <div>
-          <span class="legend-line"></span>
-          Illustrative hypothesis
-        </div>
-      </div>
+    Thousands of kilometres from their natural range.
+    So how could they have ended up here?
 
-    </section>
+  </p>
 
+  <div class="distance">
 
-    <!-- CONTROLS -->
-    <section class="controls-section">
+    🌏 ~3,000+ km from their natural range
 
-      <div class="section-label">
-        <span>EXPLORE THE HYPOTHESES</span>
-      </div>
+  </div>
 
-      <div class="buttons">
-
-        <button id="naturalBtn" class="control-btn active">
-          🌿 Natural dispersal
-        </button>
-
-        <button id="humanBtn" class="control-btn">
-          🚢 Possible human route
-        </button>
-
-        <button id="resetBtn" class="control-btn reset">
-          ↺ Reset
-        </button>
-
-      </div>
-
-      <div id="info" class="info-card">
-        <div class="info-icon">🧭</div>
-
-        <div>
-          <h3>What are we looking at?</h3>
-
-          <p>
-            Select an option above to explore possible explanations.
-            The routes are <strong>illustrative hypotheses</strong>,
-            not confirmed movements of these animals.
-          </p>
-        </div>
-      </div>
-
-    </section>
+</header>
 
 
-    <!-- FACTS -->
-    <section class="facts">
 
-      <div class="section-label">
-        <span>THE MYSTERY</span>
-      </div>
+<!-- =====================================
+     MAP
+===================================== -->
 
-      <div class="fact-grid">
+<section class="section">
 
-        <div class="fact">
-          <div class="fact-number">01</div>
-          <h3>Natural home</h3>
-          <p>
-            Orangutans are naturally found in Southeast Asia,
-            primarily on the islands of Borneo and Sumatra.
-          </p>
-        </div>
+  <div class="section-title">
 
-        <div class="fact">
-          <div class="fact-number">02</div>
-          <h3>Odisha</h3>
-          <p>
-            Odisha lies far outside the species' natural
-            geographic range.
-          </p>
-        </div>
+    <span>THE MAP</span>
 
-        <div class="fact">
-          <div class="fact-number">03</div>
-          <h3>Five infants</h3>
-          <p>
-            The reported discovery of multiple young animals
-            together makes the story particularly unusual.
-          </p>
-        </div>
+    <span>
+      Drag • Zoom • Click markers
+    </span>
 
-        <div class="fact">
-          <div class="fact-number">04</div>
-          <h3>The question</h3>
-          <p>
-            If they did not arrive naturally, what human-mediated
-            pathway could explain their presence?
-          </p>
-        </div>
+  </div>
 
-      </div>
-
-    </section>
+  <div id="map"></div>
 
 
-    <!-- DISCLAIMER -->
-    <section class="disclaimer">
+  <div class="legend">
 
-      <strong>⚠️ A note on the visualization</strong>
+    <div class="legend-item">
 
-      <p>
-        This interactive map is an exploratory visualization.
-        The hypothetical routes shown here are not intended to
-        represent confirmed routes taken by the animals.
-        Locations and distances are approximate.
-      </p>
+      <span class="dot orange"></span>
 
-    </section>
+      Reported / known location
+
+    </div>
 
 
-    <!-- FOOTER -->
-    <footer>
+    <div class="legend-item">
 
-      <div>
-        🦧 <strong>The Odisha Orangutan Mystery</strong>
-      </div>
+      <span class="dot grey"></span>
 
-      <div>
-        Built as a data-visualization experiment
-      </div>
+      Natural home
 
-    </footer>
+    </div>
+
+
+    <div class="legend-item">
+
+      <span class="line"></span>
+
+      Illustrative hypothesis
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =====================================
+     CONTROLS
+===================================== -->
+
+<section class="section">
+
+  <div class="section-title">
+
+    EXPLORE THE HYPOTHESES
 
   </div>
 
 
-  <!-- Leaflet -->
-  <script
-  src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-  crossorigin="">
+  <div class="buttons">
+
+    <button
+      id="naturalBtn"
+      class="active"
+    >
+
+      🌿 Natural dispersal
+
+    </button>
+
+
+    <button id="humanBtn">
+
+      🚢 Possible human route
+
+    </button>
+
+
+    <button id="resetBtn">
+
+      ↺ Reset
+
+    </button>
+
+  </div>
+
+
+  <div
+    id="info"
+    class="info"
+  >
+
+    <div class="info-icon">
+      🧭
+    </div>
+
+    <div>
+
+      <h3>
+        What are we looking at?
+      </h3>
+
+      <p>
+
+        Select an option above to explore
+        possible explanations.
+
+        The routes are
+        <strong>illustrative hypotheses</strong>,
+        not confirmed movements of these animals.
+
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =====================================
+     FACTS
+===================================== -->
+
+<section class="section">
+
+  <div class="section-title">
+
+    THE MYSTERY
+
+  </div>
+
+
+  <div class="facts">
+
+
+    <div class="fact">
+
+      <div class="fact-number">
+        01
+      </div>
+
+      <h3>
+        Natural home
+      </h3>
+
+      <p>
+
+        Orangutans are naturally found in
+        Southeast Asia, primarily on Borneo
+        and Sumatra.
+
+      </p>
+
+    </div>
+
+
+    <div class="fact">
+
+      <div class="fact-number">
+        02
+      </div>
+
+      <h3>
+        Odisha
+      </h3>
+
+      <p>
+
+        Odisha lies far outside the species'
+        natural geographic range.
+
+      </p>
+
+    </div>
+
+
+    <div class="fact">
+
+      <div class="fact-number">
+        03
+      </div>
+
+      <h3>
+        Five infants
+      </h3>
+
+      <p>
+
+        The reported discovery of multiple
+        young animals together makes the story
+        particularly unusual.
+
+      </p>
+
+    </div>
+
+
+    <div class="fact">
+
+      <div class="fact-number">
+        04
+      </div>
+
+      <h3>
+        The question
+      </h3>
+
+      <p>
+
+        If they did not arrive naturally,
+        what human-mediated pathway could
+        explain their presence?
+
+      </p>
+
+    </div>
+
+
+  </div>
+
+</section>
+
+
+
+<!-- =====================================
+     DISCLAIMER
+===================================== -->
+
+<div class="disclaimer">
+
+  <strong>
+    ⚠️ A note on this visualization
+  </strong>
+
+  <br>
+
+  This interactive map is an exploratory
+  visualization. The hypothetical routes shown
+  here are not intended to represent confirmed
+  routes taken by the animals. Locations and
+  distances are approximate.
+
+</div>
+
+
+
+<!-- =====================================
+     FOOTER
+===================================== -->
+
+<footer>
+
+  <div>
+    🦧 <strong>
+      The Odisha Orangutan Mystery
+    </strong>
+  </div>
+
+  <div>
+    Interactive visualization • Leaflet
+  </div>
+
+</footer>
+
+
+</div>
+
+
+<!-- =====================================
+     LEAFLET JAVASCRIPT
+===================================== -->
+
+<script
+src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
 </script>
 
-<script src="./script.js"></script>
+
+<script>
+
+console.log("🦧 Starting orangutan visualization");
+
+
+// ========================================
+// LOCATIONS
+// ========================================
+
+const Borneo =
+  [0.9619,114.5548];
+
+const Sumatra =
+  [0.5897,101.3431];
+
+const Balasore =
+  [21.4942,86.9270];
+
+const Nandankanan =
+  [20.3974,85.8067];
+
+const Singapore =
+  [1.3521,103.8198];
+
+const Colombo =
+  [6.9271,79.8612];
+
+const Chennai =
+  [13.0827,80.2707];
+
+
+// ========================================
+// MAP
+// ========================================
+
+const map =
+  L.map("map")
+   .setView(
+     [10,100],
+     4
+   );
+
+
+// ========================================
+// BASEMAP
+// ========================================
+
+L.tileLayer(
+
+  "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+
+  {
+
+    attribution:
+      "&copy; OpenStreetMap contributors &copy; CARTO",
+
+    subdomains:
+      "abcd",
+
+    maxZoom:
+      19
+
+  }
+
+).addTo(map);
+
+
+// ========================================
+// ICONS
+// ========================================
+
+const orangutanIcon =
+  L.divIcon({
+
+    className:"",
+
+    html:
+      '<div class="marker">🦧</div>',
+
+    iconSize:
+      [34,34],
+
+    iconAnchor:
+      [17,17]
+
+  });
+
+
+const homeIcon =
+  L.divIcon({
+
+    className:"",
+
+    html:
+      '<div class="home">🌿</div>',
+
+    iconSize:
+      [27,27],
+
+    iconAnchor:
+      [13.5,13.5]
+
+  });
+
+
+// ========================================
+// MARKERS
+// ========================================
+
+L.marker(
+  Borneo,
+  {icon:homeIcon}
+)
+
+.addTo(map)
+
+.bindPopup(
+
+  "<strong>🌿 Borneo</strong><br>" +
+  "<span style='color:#94a3b8'>" +
+  "Natural home of orangutans." +
+  "</span>"
+
+);
+
+
+L.marker(
+  Sumatra,
+  {icon:homeIcon}
+)
+
+.addTo(map)
+
+.bindPopup(
+
+  "<strong>🌿 Sumatra</strong><br>" +
+  "<span style='color:#94a3b8'>" +
+  "Natural home of orangutans." +
+  "</span>"
+
+);
+
+
+L.marker(
+  Balasore,
+  {icon:orangutanIcon}
+)
+
+.addTo(map)
+
+.bindPopup(
+
+  "<strong>🦧 Balasore, Odisha</strong><br>" +
+  "<span style='color:#94a3b8'>" +
+  "Reported discovery location." +
+  "</span>"
+
+);
+
+
+L.marker(
+  Nandankanan,
+  {icon:orangutanIcon}
+)
+
+.addTo(map)
+
+.bindPopup(
+
+  "<strong>🦧 Nandankanan Zoo</strong><br>" +
+  "<span style='color:#94a3b8'>" +
+  "Reported destination for care." +
+  "</span>"
+
+);
+
+
+// ========================================
+// ROUTES
+// ========================================
+
+let routeLayers = [];
+
+
+// ----------------------------------------
+// CLEAR
+// ----------------------------------------
+
+function clearRoutes(){
+
+  routeLayers.forEach(
+    layer =>
+      map.removeLayer(layer)
+  );
+
+  routeLayers = [];
+
+}
+
+
+// ----------------------------------------
+// BUTTON STATE
+// ----------------------------------------
+
+function activeButton(id){
+
+  document
+    .querySelectorAll("button")
+    .forEach(
+      b => b.classList.remove("active")
+    );
+
+  if(id){
+
+    document
+      .getElementById(id)
+      .classList.add("active");
+
+  }
+
+}
+
+
+// ========================================
+// NATURAL ROUTE
+// ========================================
+
+function naturalRoute(){
+
+  clearRoutes();
+
+  activeButton(
+    "naturalBtn"
+  );
+
+
+  const line =
+    L.polyline(
+
+      [
+        Borneo,
+        Balasore
+      ],
+
+      {
+
+        color:"#fb923c",
+
+        weight:4,
+
+        opacity:.9,
+
+        dashArray:"8 10"
+
+      }
+
+    )
+
+    .addTo(map);
+
+
+  routeLayers.push(line);
+
+
+  document
+    .getElementById("info")
+    .innerHTML = `
+
+      <div class="info-icon">
+        🌿
+      </div>
+
+      <div>
+
+        <h3>
+          Natural dispersal?
+        </h3>
+
+        <p>
+
+          Borneo is roughly
+          <strong>3,000+ km</strong>
+          from the reported Odisha location.
+
+          A direct natural journey of this
+          scale would be highly implausible.
+
+        </p>
+
+        <p style="margin-top:8px">
+
+          The orange line is
+          <strong>illustrative</strong>
+          and is not a confirmed animal route.
+
+        </p>
+
+      </div>
+
+    `;
+
+
+  map.fitBounds(
+
+    L.latLngBounds(
+      [Borneo,Balasore]
+    ),
+
+    {
+      padding:[60,60],
+      maxZoom:5,
+      animate:true
+    }
+
+  );
+
+}
+
+
+// ========================================
+// HUMAN ROUTE
+// ========================================
+
+function humanRoute(){
+
+  clearRoutes();
+
+  activeButton(
+    "humanBtn"
+  );
+
+
+  const route = [
+
+    Borneo,
+
+    Singapore,
+
+    Colombo,
+
+    Chennai,
+
+    Balasore
+
+  ];
+
+
+  const line =
+    L.polyline(
+
+      route,
+
+      {
+
+        color:"#fb923c",
+
+        weight:4,
+
+        opacity:.95,
+
+        dashArray:"10 8"
+
+      }
+
+    )
+
+    .addTo(map);
+
+
+  routeLayers.push(line);
+
+
+  // Transit points
+
+  [
+
+    ["Singapore",Singapore],
+
+    ["Colombo",Colombo],
+
+    ["Chennai",Chennai]
+
+  ]
+
+  .forEach(
+
+    point => {
+
+      const marker =
+        L.circleMarker(
+
+          point[1],
+
+          {
+
+            radius:5,
+
+            color:"#f97316",
+
+            weight:2,
+
+            fillColor:"#0f172a",
+
+            fillOpacity:1
+
+          }
+
+        )
+
+        .addTo(map)
+
+        .bindPopup(
+
+          "<strong>" +
+          point[0] +
+          "</strong><br>" +
+
+          "<span style='color:#94a3b8'>" +
+
+          "Illustrative transit point" +
+
+          "</span>"
+
+        );
+
+
+      routeLayers.push(marker);
+
+    }
+
+  );
+
+
+  document
+    .getElementById("info")
+    .innerHTML = `
+
+      <div class="info-icon">
+        🚢
+      </div>
+
+      <div>
+
+        <h3>
+          Possible human-mediated route
+        </h3>
+
+        <p>
+
+          One hypothetical explanation is
+          that the animals were transported
+          through a human-controlled pathway.
+
+        </p>
+
+        <p style="margin-top:8px">
+
+          <strong>Important:</strong>
+          this route is illustrative only.
+          It does not establish how these
+          animals travelled.
+
+        </p>
+
+      </div>
+
+    `;
+
+
+  map.fitBounds(
+
+    L.latLngBounds(route),
+
+    {
+
+      padding:[60,60],
+
+      maxZoom:5,
+
+      animate:true
+
+    }
+
+  );
+
+}
+
+
+// ========================================
+// RESET
+// ========================================
+
+function resetMap(){
+
+  clearRoutes();
+
+  activeButton(null);
+
+
+  document
+    .getElementById("info")
+    .innerHTML = `
+
+      <div class="info-icon">
+        🧭
+      </div>
+
+      <div>
+
+        <h3>
+          What are we looking at?
+        </h3>
+
+        <p>
+
+          Select an option above to explore
+          possible explanations.
+
+          The routes are
+          <strong>illustrative hypotheses</strong>,
+          not confirmed movements.
+
+        </p>
+
+      </div>
+
+    `;
+
+
+  map.setView(
+
+    [10,100],
+
+    4,
+
+    {
+      animate:true
+    }
+
+  );
+
+}
+
+
+// ========================================
+// EVENTS
+// ========================================
+
+document
+  .getElementById("naturalBtn")
+  .onclick =
+    naturalRoute;
+
+
+document
+  .getElementById("humanBtn")
+  .onclick =
+    humanRoute;
+
+
+document
+  .getElementById("resetBtn")
+  .onclick =
+    resetMap;
+
+
+// ========================================
+// FINAL MAP REFRESH
+// ========================================
+
+setTimeout(
+
+  () => map.invalidateSize(),
+
+  500
+
+);
+
+
+console.log(
+  "🦧 Map initialized successfully"
+);
+
+</script>
 
 </body>
 </html>
