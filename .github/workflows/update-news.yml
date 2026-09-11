@@ -1,0 +1,83 @@
+name: Update Case News
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-news:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Fetch Google News RSS
+        run: |
+          python - <<'PY'
+          import urllib.request
+          import xml.etree.ElementTree as ET
+          import json
+          from email.utils import parsedate_to_datetime
+          from datetime import datetime, timezone
+
+          feed_url = (
+              "https://news.google.com/rss/search"
+              "?q=orangutan+Odisha"
+              "&hl=en-IN&gl=IN&ceid=IN:en"
+          )
+
+          req = urllib.request.Request(
+              feed_url,
+              headers={"User-Agent": "Mozilla/5.0"}
+          )
+
+          data = urllib.request.urlopen(req, timeout=20).read()
+          root = ET.fromstring(data)
+
+          items = []
+
+          for item in root.findall("./channel/item")[:8]:
+              title = item.findtext("title", "").strip()
+              link = item.findtext("link", "").strip()
+              pub_date = item.findtext("pubDate", "").strip()
+              source = item.findtext("source", "").strip()
+
+              try:
+                  dt = parsedate_to_datetime(pub_date)
+                  published = dt.astimezone(timezone.utc).isoformat()
+              except:
+                  published = pub_date
+
+              items.append({
+                  "title": title,
+                  "link": link,
+                  "source": source,
+                  "published": published
+              })
+
+          output = {
+              "updated": datetime.now(timezone.utc).isoformat(),
+              "items": items
+          }
+
+          with open("news.json", "w", encoding="utf-8") as f:
+              json.dump(output, f, indent=2, ensure_ascii=False)
+
+          print(f"Fetched {len(items)} news items")
+          PY
+
+      - name: Commit updated news
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add news.json
+
+          git diff --cached --quiet || git commit -m "Update case news"
+
+          git push
