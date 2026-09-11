@@ -1999,7 +1999,7 @@ a {
   position: absolute;
   z-index: 5;
   right: 28px;
-  top: 68%;
+  top: 85%;
   width: min(390px, 38%);
   padding-top: 12px;
   border-top: 1px solid var(--border-strong);
