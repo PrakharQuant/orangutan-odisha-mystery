@@ -936,24 +936,20 @@ function startNewsTicker() {
 
   if (!items.length) return;
 
-  // Duplicate once for a seamless loop
+  // Duplicate the headlines once for a seamless loop.
   items.forEach((item) => {
     track.appendChild(item.cloneNode(true));
   });
 
-  const firstItem = track.querySelector("a");
-
-  if (!firstItem) return;
-
-  const distance = track.scrollWidth / 2;
+  const totalWidth = track.scrollWidth / 2;
 
   track.animate(
     [
       { transform: "translateX(0)" },
-      { transform: `translateX(-${distance}px)` }
+      { transform: `translateX(-${totalWidth}px)` }
     ],
     {
-      duration: 50000,
+      duration: 60000,
       iterations: Infinity,
       easing: "linear"
     }
