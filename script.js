@@ -896,9 +896,7 @@ async function loadCaseNews() {
             <div>
               ${escapeNewsText(item.title)}
 
-              <small>
-                ${escapeNewsText(item.source || "NEWS REPORT")}
-              </small>
+              
             </div>
           </a>
         `;
