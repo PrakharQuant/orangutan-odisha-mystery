@@ -197,7 +197,7 @@ a {
   content: "";
   position: absolute;
   z-index: 1;
-  top: -8%;
+  top: -9%;
   right: 0%;
   width: 70%;
    height: 91%;
@@ -267,7 +267,7 @@ a {
 
 .hero h1 {
   max-width: 760px;
-  font-size: clamp(58px, 8vw, 104px);
+  font-size: clamp(52px, 8vw, 104px);
   line-height: 0.94;
   letter-spacing: -0.055em;
   font-weight: 800;
@@ -286,7 +286,7 @@ a {
 }
 
 .hero-meta {
-  margin-top: 48px;
+  margin-top: 42px;
   display: flex;
   align-items: center;
   gap: 24px;
